@@ -30,14 +30,10 @@
                 <div id="boot-progress-bar"></div>
             </div>
         </div>
+    </div>
 
     <!-- Main OS Desktop Environment -->
-    <div id="desktop-environment">
-        <!-- Desktop Watermark Overlay -->
-        <div id="desktop-watermark">
-            <div>Zeb OS 3 Pre-Alpha</div>
-            <div>Build 0.0.5.build9a42</div>
-        </div>
+    <div id="desktop-canvas">
         <!-- Desktop Shortcuts Zone -->
         <div id="desktop-icons-zone">
             <div class="desktop-icon" id="icon-editor" title="Double click to open">
@@ -70,7 +66,7 @@
                     <circle cx="16" cy="11" r="1" fill="#3b82f6" />
                     <circle cx="8" cy="15" r="1" fill="#ffffff" />
                     <circle cx="12" cy="15" r="1" fill="#ffffff" />
-                    <circle cx="16" cy="15" r="1" fill="#3b82f6" />
+                    <circle cx="16" cy="11" r="1" fill="#3b82f6" />
                     <circle cx="8" cy="19" r="1" fill="#ffffff" />
                     <circle cx="12" cy="19" r="1" fill="#ffffff" />
                     <circle cx="16" cy="19" r="1" fill="#10b981" />
@@ -98,6 +94,7 @@
 
         <!-- Floating Windows Layer -->
         <div id="window-workspace"></div>
+
         <!-- 3-Column Modern Aero Start Menu -->
         <div id="start-menu" class="hidden-view">
             <!-- Col 1: Far Left Navigation Rail -->
@@ -138,7 +135,7 @@
                     <span>Zeb Terminal</span>
                 </div>
                 <div class="start-list-item" id="menu-launch-calc">
-                    <svg class="sys-icon" viewBox="0 0 24 24" fill="none"><rect x="4" y="2" width="16" height="20" rx="2" fill="#374151" stroke="#1f2937" stroke-width="1.5"/><rect x="6" y="4" width="12" height="4" rx="1" fill="#9ca3af"/><circle cx="8" cy="11" r="1" fill="#ffffff"/><circle cx="12" cy="11" r="1" fill="#ffffff"/><circle cx="16" cy="11" r="1" fill="#3b82f6"/><circle cx="8" cy="15" r="1" fill="#ffffff"/><circle cx="12" cy="15" r="1" fill="#ffffff"/><circle cx="16" cy="11" r="1" fill="#3b82f6"/><circle cx="8" cy="19" r="1" fill="#ffffff"/><circle cx="12" cy="19" r="1" fill="#ffffff"/><circle cx="16" cy="19" r="1" fill="#10b981"/></svg>
+                    <svg class="sys-icon" viewBox="0 0 24 24" fill="none"><rect x="4" y="2" width="16" height="20" rx="2" fill="#374151" stroke="#1f2937" stroke-width="1.5"/><rect x="6" y="4" width="12" height="4" rx="1" fill="#9ca3af"/><circle cx="8" cy="11" r="1" fill="#ffffff"/><circle cx="12" cy="11" r="1" fill="#ffffff"/><circle cx="16" cy="11" r="1" fill="#3b82f6"/><circle cx="8" cy="15" r="1" fill="#ffffff"/><circle cx="12" cy="11" r="1" fill="#ffffff"/><circle cx="16" cy="11" r="1" fill="#3b82f6"/><circle cx="8" cy="19" r="1" fill="#ffffff"/><circle cx="12" cy="19" r="1" fill="#ffffff"/><circle cx="16" cy="19" r="1" fill="#10b981"/></svg>
                     <span>Calculator</span>
                 </div>
                 <div class="start-list-item" id="menu-launch-taskmgr">
@@ -148,7 +145,7 @@
 
                 <div class="start-letter-group">C</div>
                 <div class="start-list-item" id="menu-list-calc">
-                    <svg class="sys-icon" viewBox="0 0 24 24" fill="none"><rect x="4" y="2" width="16" height="20" rx="2" fill="#374151" stroke="#1f2937" stroke-width="1.5"/><rect x="6" y="4" width="12" height="4" rx="1" fill="#9ca3af"/><circle cx="8" cy="11" r="1" fill="#ffffff"/><circle cx="12" cy="11" r="1" fill="#ffffff"/><circle cx="16" cy="11" r="1" fill="#3b82f6"/><circle cx="8" cy="15" r="1" fill="#ffffff"/><circle cx="12" cy="15" r="1" fill="#ffffff"/><circle cx="16" cy="11" r="1" fill="#3b82f6"/><circle cx="8" cy="19" r="1" fill="#ffffff"/><circle cx="12" cy="19" r="1" fill="#ffffff"/><circle cx="16" cy="19" r="1" fill="#10b981"/></svg>
+                    <svg class="sys-icon" viewBox="0 0 24 24" fill="none"><rect x="4" y="2" width="16" height="20" rx="2" fill="#374151" stroke="#1f2937" stroke-width="1.5"/><rect x="6" y="4" width="12" height="4" rx="1" fill="#9ca3af"/><circle cx="8" cy="11" r="1" fill="#ffffff"/><circle cx="12" cy="11" r="1" fill="#ffffff"/><circle cx="16" cy="11" r="1" fill="#3b82f6"/><circle cx="8" cy="15" r="1" fill="#ffffff"/><circle cx="12" cy="11" r="1" fill="#ffffff"/><circle cx="16" cy="11" r="1" fill="#3b82f6"/><circle cx="8" cy="19" r="1" fill="#ffffff"/><circle cx="12" cy="19" r="1" fill="#ffffff"/><circle cx="16" cy="19" r="1" fill="#10b981"/></svg>
                     <span>Calculator</span>
                 </div>
 
@@ -215,8 +212,7 @@
                     </div>
                 </div>
             </div>
-        </div>>
-
+        </div>
     </div>
 
     <!-- Taskbar -->
@@ -267,6 +263,7 @@
         document.getElementById('icon-terminal').addEventListener('dblclick', () => launch('Zeb Terminal', 'terminal', 'app-terminal', TerminalApp));
         document.getElementById('icon-calc').addEventListener('dblclick', () => launch('Calculator', 'calc', 'app-calc', CalcApp, 320, 420));
         document.getElementById('icon-taskmgr').addEventListener('dblclick', () => launch('Task Manager', 'taskmgr', 'app-taskmgr', TaskMgrApp));
+
         const bindApp = (id, title, icon, appId, cls, w, h) => {
             const el = document.getElementById(id);
             if (el) el.addEventListener('click', () => launch(title, icon, appId, cls, w, h));

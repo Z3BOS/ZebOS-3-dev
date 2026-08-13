@@ -6,7 +6,7 @@
     <title>Zeb OS 3 Pre-Alpha 0.0.3</title>
     <link rel="stylesheet" href="UIKit3/index.css">
 </head>
-<body class="desktop-wallpaper">
+<body class="desktop-wallpaper" style="background-image: url('assets/wallpaper1.jpeg'); background-size: cover; background-position: center; background-repeat: no-repeat;">
 
     <!-- Retro BIOS Boot Screen -->
     <div id="bios-screen"></div>
@@ -33,11 +33,6 @@
 
         <!-- Desktop Shortcuts Zone -->
         <div id="desktop-icons-zone">
-            <div class="desktop-icon" id="icon-explorer" title="Double click to open">
-                <svg class="sys-icon" viewBox="0 0 24 24" fill="none"><path d="M3 6C3 4.89543 3.89543 4 5 4H10L12 6H19C20.1046 6 21 6.89543 21 8V18C21 19.1046 20.1046 20 19 20H5C3.89543 20 3 19.1046 3 18V6Z" fill="#ffca28" stroke="#f57f17" stroke-width="1.5"/><path d="M3 9H21V18C21 19.1046 20.1046 20 19 20H5C3.89543 20 3 19.1046 3 18V9Z" fill="#ffe082"/></svg>
-                <div class="desktop-icon-label">Zeb Explorer</div>
-            </div>
-
             <div class="desktop-icon" id="icon-editor" title="Double click to open">
                 <svg class="sys-icon" viewBox="0 0 24 24" fill="none"><rect x="4" y="3" width="16" height="18" rx="2" fill="#ffffff" stroke="#0078d7" stroke-width="1.5"/><path d="M8 7H16M8 11H16M8 15H12" stroke="#0078d7" stroke-width="1.5" stroke-linecap="round"/></svg>
                 <div class="desktop-icon-label">Text Editor</div>
@@ -59,22 +54,6 @@
             </div>
         </div>
 
-        <!-- Sidebar Desktop Gadgets -->
-        <div id="desktop-gadgets-sidebar">
-            <div class="aero-gadget">
-                <div class="gadget-title">Clock</div>
-                <div class="gadget-clock-time" id="gadget-clock">12:00 PM</div>
-            </div>
-
-            <div class="aero-gadget">
-                <div class="gadget-title">CPU & RAM Meter</div>
-                <div class="gadget-meter-row"><span>CPU Usage</span><span>14%</span></div>
-                <div class="gadget-meter-track"><div class="gadget-meter-fill" style="width:14%;"></div></div>
-                <div class="gadget-meter-row" style="margin-top:6px;"><span>Memory</span><span>1.8 / 8.0 GB</span></div>
-                <div class="gadget-meter-track"><div class="gadget-meter-fill" style="width:22.5%;"></div></div>
-            </div>
-        </div>
-
         <!-- Floating Windows Layer -->
         <div id="window-workspace"></div>
 
@@ -89,13 +68,6 @@
 
             <div id="start-menu-panes">
                 <div id="start-left-pane">
-                    <div class="start-item" id="menu-launch-explorer">
-                        <svg class="sys-icon" viewBox="0 0 24 24" fill="none"><path d="M3 6C3 4.89543 3.89543 4 5 4H10L12 6H19C20.1046 6 21 6.89543 21 8V18C21 19.1046 20.1046 20 19 20H5C3.89543 20 3 19.1046 3 18V6Z" fill="#ffca28" stroke="#f57f17" stroke-width="1.5"/><path d="M3 9H21V18C21 19.1046 20.1046 20 19 20H5C3.89543 20 3 19.1046 3 18V9Z" fill="#ffe082"/></svg>
-                        <div class="start-item-text">
-                            <span class="start-item-title">Zeb Explorer</span>
-                            <span class="start-item-desc">Browse file system</span>
-                        </div>
-                    </div>
                     <div class="start-item" id="menu-launch-editor">
                         <svg class="sys-icon" viewBox="0 0 24 24" fill="none"><rect x="4" y="3" width="16" height="18" rx="2" fill="#ffffff" stroke="#0078d7" stroke-width="1.5"/><path d="M8 7H16M8 11H16M8 15H12" stroke="#0078d7" stroke-width="1.5" stroke-linecap="round"/></svg>
                         <div class="start-item-text">
@@ -127,7 +99,7 @@
 
                     <div class="start-all-programs">
                         <span>All Programs</span>
-                        <span style="color:#10b981;">►</span>
+                        <span style="color:#60a5fa;">►</span>
                     </div>
                 </div>
 
@@ -155,8 +127,8 @@
             </div>
 
             <div id="start-menu-footer">
-                <button class="start-footer-btn" onclick="location.reload()">Log Off</button>
-                <button class="start-footer-btn shutdown-btn" onclick="location.reload()">Shut Down</button>
+                <input type="text" class="start-search-input" placeholder="Search programs & files...">
+                <button class="start-power-btn" onclick="location.reload()">Shut Down</button>
             </div>
         </div>
 
@@ -180,7 +152,6 @@
 
     <script type="module">
         import { createWindow } from './os3.js';
-        import { ExplorerApp } from './programs/explorer.js';
         import { EditorApp } from './programs/editor.js';
         import { TerminalApp } from './programs/terminal.js';
         import { CalcApp } from './programs/calc.js';
@@ -194,24 +165,22 @@
         };
 
         // Desktop Icons (DOUBLE-CLICK)
-        document.getElementById('icon-explorer').addEventListener('dblclick', () => launch('Zeb Explorer', 'explorer', 'app-explorer', ExplorerApp));
         document.getElementById('icon-editor').addEventListener('dblclick', () => launch('Text Editor', 'editor', 'app-editor', EditorApp));
         document.getElementById('icon-terminal').addEventListener('dblclick', () => launch('Zeb Terminal', 'terminal', 'app-terminal', TerminalApp));
         document.getElementById('icon-calc').addEventListener('dblclick', () => launch('Calculator', 'calc', 'app-calc', CalcApp));
         document.getElementById('icon-taskmgr').addEventListener('dblclick', () => launch('Task Manager', 'taskmgr', 'app-taskmgr', TaskMgrApp));
 
         // Start Menu Items (Single Click)
-        document.getElementById('menu-launch-explorer').addEventListener('click', () => launch('Zeb Explorer', 'explorer', 'app-explorer', ExplorerApp));
         document.getElementById('menu-launch-editor').addEventListener('click', () => launch('Text Editor', 'editor', 'app-editor', EditorApp));
         document.getElementById('menu-launch-terminal').addEventListener('click', () => launch('Zeb Terminal', 'terminal', 'app-terminal', TerminalApp));
         document.getElementById('menu-launch-calc').addEventListener('click', () => launch('Calculator', 'calc', 'app-calc', CalcApp));
         document.getElementById('menu-launch-taskmgr').addEventListener('click', () => launch('Task Manager', 'taskmgr', 'app-taskmgr', TaskMgrApp));
 
         // Right pane shortcuts
-        document.getElementById('menu-link-documents').addEventListener('click', () => launch('Zeb Explorer - Documents', 'explorer', 'app-explorer-docs', ExplorerApp));
-        document.getElementById('menu-link-pictures').addEventListener('click', () => launch('Zeb Explorer - Pictures', 'explorer', 'app-explorer-pics', ExplorerApp));
-        document.getElementById('menu-link-computer').addEventListener('click', () => launch('Zeb Explorer - Computer', 'explorer', 'app-explorer-comp', ExplorerApp));
-        document.getElementById('menu-link-control').addEventListener('click', () => launch('Task Manager', 'taskmgr', 'app-taskmgr', TaskMgrApp));
+        document.getElementById('menu-link-documents').addEventListener('click', () => launch('Text Editor', 'editor', 'app-editor-docs', EditorApp));
+        document.getElementById('menu-link-pictures').addEventListener('click', () => launch('Text Editor', 'editor', 'app-editor-pics', EditorApp));
+        document.getElementById('menu-link-computer').addEventListener('click', () => launch('Task Manager', 'taskmgr', 'app-taskmgr-comp', TaskMgrApp));
+        document.getElementById('menu-link-control').addEventListener('click', () => launch('Task Manager', 'taskmgr', 'app-taskmgr-ctrl', TaskMgrApp));
     </script>
 </body>
 </html>

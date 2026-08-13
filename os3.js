@@ -91,10 +91,16 @@ export function createWindow(title, iconName, winId) {
     const frame = document.createElement('div');
     frame.id = winId;
     frame.className = 'window-frame active-window';
-    frame.style.width = '640px';
-    frame.style.height = '440px';
-    frame.style.left = `${Math.min(window.innerWidth - 660, 120 + activeWindows.size * 24)}px`;
-    frame.style.top = `${Math.min(window.innerHeight - 480, 60 + activeWindows.size * 24)}px`;
+    const defaultW = 640;
+    const defaultH = 440;
+    const offset = (activeWindows.size % 8) * 20;
+    const centerLeft = Math.max(10, Math.floor((window.innerWidth - defaultW) / 2) + offset);
+    const centerTop = Math.max(10, Math.floor((window.innerHeight - 40 - defaultH) / 2) + offset);
+
+    frame.style.width = `${defaultW}px`;
+    frame.style.height = `${defaultH}px`;
+    frame.style.left = `${centerLeft}px`;
+    frame.style.top = `${centerTop}px`;
     frame.style.zIndex = ++zIndexCounter;
 
     frame.innerHTML = `

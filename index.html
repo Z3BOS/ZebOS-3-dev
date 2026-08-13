@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zeb OS 3 Pre-Alpha 0.0.4</title>
+    <title>Zeb OS 3 Pre-Alpha 0.0.5</title>
     <link rel="stylesheet" href="UIKit3/index.css">
 </head>
 
@@ -25,16 +25,19 @@
                 </svg>
             </div>
             <div class="boot-title">Zeb<span style="color:#60a5fa; font-weight:600;">OS</span> 3</div>
-            <div class="boot-version">Pre-Alpha 0.0.4</div>
+            <div class="boot-version">Pre-Alpha 0.0.5</div>
             <div id="boot-progress-track">
                 <div id="boot-progress-bar"></div>
             </div>
         </div>
-    </div>
 
-    <!-- Desktop Workspace Canvas -->
-    <div id="desktop-canvas">
-
+    <!-- Main OS Desktop Environment -->
+    <div id="desktop-environment">
+        <!-- Desktop Watermark Overlay -->
+        <div id="desktop-watermark">
+            <div>Zeb OS 3 Pre-Alpha</div>
+            <div>Build 0.0.5.build9a42</div>
+        </div>
         <!-- Desktop Shortcuts Zone -->
         <div id="desktop-icons-zone">
             <div class="desktop-icon" id="icon-editor" title="Double click to open">
@@ -89,149 +92,130 @@
         <!-- Desktop Build Watermark -->
         <div id="desktop-watermark">
             <div class="watermark-title">Zeb OS 3 Pre-Alpha</div>
-            <div>Build 0.0.4.build8f31</div>
+            <div>Build 0.0.5.build9a42</div>
             <div>©Z3BOS Development Team Copyright</div>
         </div>
 
         <!-- Floating Windows Layer -->
         <div id="window-workspace"></div>
-
-        <!-- Dual-Pane Start Menu -->
+        <!-- 3-Column Modern Aero Start Menu -->
         <div id="start-menu" class="hidden-view">
-            <div id="start-menu-header">
-                <div class="start-user-avatar">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                        <circle cx="12" cy="8" r="4" fill="#ffffff" />
-                        <path d="M5 20C5 16.134 8.13401 13 12 13C15.866 13 19 16.134 19 20" stroke="#ffffff"
-                            stroke-width="2" stroke-linecap="round" />
-                    </svg>
+            <!-- Col 1: Far Left Navigation Rail -->
+            <div id="start-nav-rail">
+                <div class="start-rail-top">
+                    <button class="start-rail-btn" id="start-rail-hamburger" title="Start Navigation">
+                        <svg class="sys-icon" viewBox="0 0 24 24" fill="none"><path d="M4 6H20M4 12H20M4 18H20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                    </button>
                 </div>
-                <div class="start-user-name">Guest User</div>
-            </div>
-
-            <div id="start-menu-panes">
-                <div id="start-left-pane">
-                    <div class="start-item" id="menu-launch-editor">
-                        <svg class="sys-icon" viewBox="0 0 24 24" fill="none">
-                            <rect x="4" y="3" width="16" height="18" rx="2" fill="#ffffff" stroke="#0078d7"
-                                stroke-width="1.5" />
-                            <path d="M8 7H16M8 11H16M8 15H12" stroke="#0078d7" stroke-width="1.5"
-                                stroke-linecap="round" />
-                        </svg>
-                        <div class="start-item-text">
-                            <span class="start-item-title">Text Editor</span>
-                            <span class="start-item-desc">Edit documents</span>
-                        </div>
+                <div class="start-rail-bottom">
+                    <div class="start-rail-avatar" title="Guest User">
+                        <svg class="sys-icon" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" fill="#ffffff"/><path d="M5 20C5 16.134 8.13401 13 12 13C15.866 13 19 16.134 19 20" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/></svg>
                     </div>
-                    <div class="start-item" id="menu-launch-terminal">
-                        <svg class="sys-icon" viewBox="0 0 24 24" fill="none">
-                            <rect x="2" y="4" width="20" height="16" rx="2" fill="#1e293b" stroke="#475569"
-                                stroke-width="1.5" />
-                            <path d="M6 9L10 12L6 15" stroke="#60a5fa" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" />
-                            <path d="M12 15H17" stroke="#60a5fa" stroke-width="2" stroke-linecap="round" />
-                        </svg>
-                        <div class="start-item-text">
-                            <span class="start-item-title">Zeb Terminal</span>
-                            <span class="start-item-desc">Command prompt</span>
-                        </div>
-                    </div>
-                    <div class="start-item" id="menu-launch-calc">
-                        <svg class="sys-icon" viewBox="0 0 24 24" fill="none">
-                            <rect x="4" y="2" width="16" height="20" rx="2" fill="#374151" stroke="#1f2937"
-                                stroke-width="1.5" />
-                            <rect x="6" y="4" width="12" height="4" rx="1" fill="#9ca3af" />
-                            <circle cx="8" cy="11" r="1" fill="#ffffff" />
-                            <circle cx="12" cy="11" r="1" fill="#ffffff" />
-                            <circle cx="16" cy="11" r="1" fill="#3b82f6" />
-                            <circle cx="8" cy="15" r="1" fill="#ffffff" />
-                            <circle cx="12" cy="15" r="1" fill="#ffffff" />
-                            <circle cx="16" cy="15" r="1" fill="#3b82f6" />
-                            <circle cx="8" cy="19" r="1" fill="#ffffff" />
-                            <circle cx="12" cy="19" r="1" fill="#ffffff" />
-                            <circle cx="16" cy="19" r="1" fill="#10b981" />
-                        </svg>
-                        <div class="start-item-text">
-                            <span class="start-item-title">Calculator</span>
-                            <span class="start-item-desc">Math calculations</span>
-                        </div>
-                    </div>
-                    <div class="start-item" id="menu-launch-taskmgr">
-                        <svg class="sys-icon" viewBox="0 0 24 24" fill="none">
-                            <rect x="3" y="3" width="18" height="18" rx="2" fill="#0f172a" stroke="#3b82f6"
-                                stroke-width="1.5" />
-                            <path d="M5 14L9 10L13 14L19 7" stroke="#10b981" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" />
-                        </svg>
-                        <div class="start-item-text">
-                            <span class="start-item-title">Task Manager</span>
-                            <span class="start-item-desc">Process monitor</span>
-                        </div>
-                    </div>
-
-                    <div class="start-all-programs">
-                        <span>All Programs</span>
-                        <svg class="sys-icon" style="width: 14px; height: 14px; color: #60a5fa;" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                    </div>
-                </div>
-
-                <div id="start-right-pane">
-                    <div class="start-sys-item" id="menu-link-documents">
-                        <svg class="sys-icon" viewBox="0 0 24 24" fill="none">
-                            <path
-                                d="M3 6C3 4.89543 3.89543 4 5 4H10L12 6H19C20.1046 6 21 6.89543 21 8V18C21 19.1046 20.1046 20 19 20H5C3.89543 20 3 19.1046 3 18V6Z"
-                                fill="#2563eb" stroke="#1d4ed8" stroke-width="1.5" />
-                            <rect x="7" y="10" width="10" height="7" rx="1" fill="#ffffff" />
-                            <path d="M9 12H15M9 14H13" stroke="#2563eb" stroke-width="1.2" stroke-linecap="round" />
-                        </svg>
-                        <span>My Documents</span>
-                    </div>
-                    <div class="start-sys-item" id="menu-link-pictures">
-                        <svg class="sys-icon" viewBox="0 0 24 24" fill="none">
-                            <path
-                                d="M3 6C3 4.89543 3.89543 4 5 4H10L12 6H19C20.1046 6 21 6.89543 21 8V18C21 19.1046 20.1046 20 19 20H5C3.89543 20 3 19.1046 3 18V6Z"
-                                fill="#ffca28" stroke="#f57f17" stroke-width="1.5" />
-                            <rect x="7" y="10" width="10" height="7" rx="1" fill="#ffffff" />
-                            <circle cx="10" cy="12" r="1" fill="#ff9800" />
-                            <path d="M8 16L11 13L13 15L15 13L16 16H8Z" fill="#4caf50" />
-                        </svg>
-                        <span>My Pictures</span>
-                    </div>
-                    <div class="start-sys-item" id="menu-link-computer">
-                        <svg class="sys-icon" viewBox="0 0 24 24" fill="none">
-                            <rect x="3" y="3" width="18" height="12" rx="2" fill="#0f172a" stroke="#60a5fa"
-                                stroke-width="1.5" />
-                            <path d="M5 5H19V13H5V5Z" fill="#1e293b" />
-                            <path d="M8 18H16M12 15V18" stroke="#60a5fa" stroke-width="1.5" stroke-linecap="round" />
-                            <rect x="7" y="19" width="10" height="2" rx="1" fill="#475569" />
-                        </svg>
-                        <span>My Computer</span>
-                    </div>
-
-                    <div class="start-sys-separator"></div>
-
-                    <div class="start-sys-item" id="menu-link-control">
-                        <svg class="sys-icon" viewBox="0 0 24 24" fill="none">
-                            <rect x="3" y="3" width="18" height="18" rx="3" fill="#1e293b" stroke="#3b82f6"
-                                stroke-width="1.5" />
-                            <path d="M7 8H17M7 12H17M7 16H17" stroke="#60a5fa" stroke-width="1.5"
-                                stroke-linecap="round" />
-                            <circle cx="10" cy="8" r="2" fill="#3b82f6" />
-                            <circle cx="14" cy="12" r="2" fill="#10b981" />
-                            <circle cx="9" cy="16" r="2" fill="#f59e0b" />
-                        </svg>
-                        <span>Control Panel</span>
-                    </div>
+                    <button class="start-rail-btn" id="menu-link-documents" title="My Documents">
+                        <svg class="sys-icon" viewBox="0 0 24 24" fill="none"><path d="M3 6C3 4.89543 3.89543 4 5 4H10L12 6H19C20.1046 6 21 6.89543 21 8V18C21 19.1046 20.1046 20 19 20H5C3.89543 20 3 19.1046 3 18V6Z" fill="#2563eb" stroke="#1d4ed8" stroke-width="1.5"/><rect x="7" y="10" width="10" height="7" rx="1" fill="#ffffff"/><path d="M9 12H15M9 14H13" stroke="#2563eb" stroke-width="1.2" stroke-linecap="round"/></svg>
+                    </button>
+                    <button class="start-rail-btn" id="menu-link-pictures" title="My Pictures">
+                        <svg class="sys-icon" viewBox="0 0 24 24" fill="none"><path d="M3 6C3 4.89543 3.89543 4 5 4H10L12 6H19C20.1046 6 21 6.89543 21 8V18C21 19.1046 20.1046 20 19 20H5C3.89543 20 3 19.1046 3 18V6Z" fill="#ffca28" stroke="#f57f17" stroke-width="1.5"/><rect x="7" y="10" width="10" height="7" rx="1" fill="#ffffff"/><circle cx="10" cy="12" r="1" fill="#ff9800"/><path d="M8 16L11 13L13 15L15 13L16 16H8Z" fill="#4caf50"/></svg>
+                    </button>
+                    <button class="start-rail-btn" id="menu-link-control" title="Control Panel">
+                        <svg class="sys-icon" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="3" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/><path d="M7 8H17M7 12H17M7 16H17" stroke="#60a5fa" stroke-width="1.5" stroke-linecap="round"/><circle cx="10" cy="8" r="2" fill="#3b82f6"/><circle cx="14" cy="12" r="2" fill="#10b981"/><circle cx="9" cy="16" r="2" fill="#f59e0b"/></svg>
+                    </button>
+                    <button class="start-rail-btn power-rail-btn" id="start-power-off" title="Shut Down" onclick="location.reload()">
+                        <svg class="sys-icon" viewBox="0 0 24 24" fill="none"><path d="M12 3V12M18.36 6.64A9 9 0 1 1 5.64 6.64" stroke="#ef4444" stroke-width="2.5" stroke-linecap="round"/></svg>
+                    </button>
                 </div>
             </div>
 
-            <div id="start-menu-footer">
-                <input type="text" class="start-search-input" placeholder="Search programs & files...">
-                <button class="start-power-btn" onclick="location.reload()">Shut Down</button>
+            <!-- Col 2: Middle App List Column -->
+            <div id="start-app-list">
+                <div class="start-section-title">Recently added</div>
+                <div class="start-list-item" id="menu-launch-editor">
+                    <svg class="sys-icon" viewBox="0 0 24 24" fill="none"><rect x="4" y="3" width="16" height="18" rx="2" fill="#ffffff" stroke="#0078d7" stroke-width="1.5"/><path d="M8 7H16M8 11H16M8 15H12" stroke="#0078d7" stroke-width="1.5" stroke-linecap="round"/></svg>
+                    <span>Text Editor</span>
+                </div>
+                <div class="start-list-item" id="menu-launch-terminal">
+                    <svg class="sys-icon" viewBox="0 0 24 24" fill="none"><rect x="2" y="4" width="20" height="16" rx="2" fill="#1e293b" stroke="#475569" stroke-width="1.5"/><path d="M6 9L10 12L6 15" stroke="#60a5fa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 15H17" stroke="#60a5fa" stroke-width="2" stroke-linecap="round"/></svg>
+                    <span>Zeb Terminal</span>
+                </div>
+                <div class="start-list-item" id="menu-launch-calc">
+                    <svg class="sys-icon" viewBox="0 0 24 24" fill="none"><rect x="4" y="2" width="16" height="20" rx="2" fill="#374151" stroke="#1f2937" stroke-width="1.5"/><rect x="6" y="4" width="12" height="4" rx="1" fill="#9ca3af"/><circle cx="8" cy="11" r="1" fill="#ffffff"/><circle cx="12" cy="11" r="1" fill="#ffffff"/><circle cx="16" cy="11" r="1" fill="#3b82f6"/><circle cx="8" cy="15" r="1" fill="#ffffff"/><circle cx="12" cy="15" r="1" fill="#ffffff"/><circle cx="16" cy="11" r="1" fill="#3b82f6"/><circle cx="8" cy="19" r="1" fill="#ffffff"/><circle cx="12" cy="19" r="1" fill="#ffffff"/><circle cx="16" cy="19" r="1" fill="#10b981"/></svg>
+                    <span>Calculator</span>
+                </div>
+                <div class="start-list-item" id="menu-launch-taskmgr">
+                    <svg class="sys-icon" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="2" fill="#0f172a" stroke="#3b82f6" stroke-width="1.5"/><path d="M5 14L9 10L13 14L19 7" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    <span>Task Manager</span>
+                </div>
+
+                <div class="start-letter-group">C</div>
+                <div class="start-list-item" id="menu-list-calc">
+                    <svg class="sys-icon" viewBox="0 0 24 24" fill="none"><rect x="4" y="2" width="16" height="20" rx="2" fill="#374151" stroke="#1f2937" stroke-width="1.5"/><rect x="6" y="4" width="12" height="4" rx="1" fill="#9ca3af"/><circle cx="8" cy="11" r="1" fill="#ffffff"/><circle cx="12" cy="11" r="1" fill="#ffffff"/><circle cx="16" cy="11" r="1" fill="#3b82f6"/><circle cx="8" cy="15" r="1" fill="#ffffff"/><circle cx="12" cy="15" r="1" fill="#ffffff"/><circle cx="16" cy="11" r="1" fill="#3b82f6"/><circle cx="8" cy="19" r="1" fill="#ffffff"/><circle cx="12" cy="19" r="1" fill="#ffffff"/><circle cx="16" cy="19" r="1" fill="#10b981"/></svg>
+                    <span>Calculator</span>
+                </div>
+
+                <div class="start-letter-group">T</div>
+                <div class="start-list-item" id="menu-list-editor">
+                    <svg class="sys-icon" viewBox="0 0 24 24" fill="none"><rect x="4" y="3" width="16" height="18" rx="2" fill="#ffffff" stroke="#0078d7" stroke-width="1.5"/><path d="M8 7H16M8 11H16M8 15H12" stroke="#0078d7" stroke-width="1.5" stroke-linecap="round"/></svg>
+                    <span>Text Editor</span>
+                </div>
+                <div class="start-list-item" id="menu-list-taskmgr">
+                    <svg class="sys-icon" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="2" fill="#0f172a" stroke="#3b82f6" stroke-width="1.5"/><path d="M5 14L9 10L13 14L19 7" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    <span>Task Manager</span>
+                </div>
+
+                <div class="start-letter-group">Z</div>
+                <div class="start-list-item" id="menu-list-terminal">
+                    <svg class="sys-icon" viewBox="0 0 24 24" fill="none"><rect x="2" y="4" width="20" height="16" rx="2" fill="#1e293b" stroke="#475569" stroke-width="1.5"/><path d="M6 9L10 12L6 15" stroke="#60a5fa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 15H17" stroke="#60a5fa" stroke-width="2" stroke-linecap="round"/></svg>
+                    <span>Zeb Terminal</span>
+                </div>
             </div>
-        </div>
+
+            <!-- Col 3: Right Tile Grid Area -->
+            <div id="start-tile-grid">
+                <div class="start-tile-section">
+                    <div class="start-tile-section-title">Productivity & System</div>
+                    <div class="start-tiles-container">
+                        <div class="aero-tile" id="tile-editor">
+                            <svg class="sys-icon" viewBox="0 0 24 24" fill="none"><rect x="4" y="3" width="16" height="18" rx="2" fill="#ffffff" stroke="#0078d7" stroke-width="1.5"/><path d="M8 7H16M8 11H16M8 15H12" stroke="#0078d7" stroke-width="1.5" stroke-linecap="round"/></svg>
+                            <span class="aero-tile-label">Text Editor</span>
+                        </div>
+                        <div class="aero-tile" id="tile-terminal">
+                            <svg class="sys-icon" viewBox="0 0 24 24" fill="none"><rect x="2" y="4" width="20" height="16" rx="2" fill="#1e293b" stroke="#475569" stroke-width="1.5"/><path d="M6 9L10 12L6 15" stroke="#60a5fa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 15H17" stroke="#60a5fa" stroke-width="2" stroke-linecap="round"/></svg>
+                            <span class="aero-tile-label">Zeb Terminal</span>
+                        </div>
+                        <div class="aero-tile" id="tile-calc">
+                            <svg class="sys-icon" viewBox="0 0 24 24" fill="none"><rect x="4" y="2" width="16" height="20" rx="2" fill="#374151" stroke="#1f2937" stroke-width="1.5"/><rect x="6" y="4" width="12" height="4" rx="1" fill="#9ca3af"/><circle cx="8" cy="11" r="1" fill="#ffffff"/><circle cx="12" cy="11" r="1" fill="#ffffff"/><circle cx="16" cy="11" r="1" fill="#3b82f6"/><circle cx="8" cy="15" r="1" fill="#ffffff"/><circle cx="12" cy="11" r="1" fill="#ffffff"/><circle cx="16" cy="11" r="1" fill="#3b82f6"/><circle cx="8" cy="19" r="1" fill="#ffffff"/><circle cx="12" cy="19" r="1" fill="#ffffff"/><circle cx="16" cy="19" r="1" fill="#10b981"/></svg>
+                            <span class="aero-tile-label">Calculator</span>
+                        </div>
+                        <div class="aero-tile" id="tile-taskmgr">
+                            <svg class="sys-icon" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="2" fill="#0f172a" stroke="#3b82f6" stroke-width="1.5"/><path d="M5 14L9 10L13 14L19 7" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            <span class="aero-tile-label">Task Manager</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="start-tile-section">
+                    <div class="start-tile-section-title">System Places</div>
+                    <div class="start-tiles-container">
+                        <div class="aero-tile" id="tile-documents">
+                            <svg class="sys-icon" viewBox="0 0 24 24" fill="none"><path d="M3 6C3 4.89543 3.89543 4 5 4H10L12 6H19C20.1046 6 21 6.89543 21 8V18C21 19.1046 20.1046 20 19 20H5C3.89543 20 3 19.1046 3 18V6Z" fill="#2563eb" stroke="#1d4ed8" stroke-width="1.5"/><rect x="7" y="10" width="10" height="7" rx="1" fill="#ffffff"/><path d="M9 12H15M9 14H13" stroke="#2563eb" stroke-width="1.2" stroke-linecap="round"/></svg>
+                            <span class="aero-tile-label">My Documents</span>
+                        </div>
+                        <div class="aero-tile" id="tile-pictures">
+                            <svg class="sys-icon" viewBox="0 0 24 24" fill="none"><path d="M3 6C3 4.89543 3.89543 4 5 4H10L12 6H19C20.1046 6 21 6.89543 21 8V18C21 19.1046 20.1046 20 19 20H5C3.89543 20 3 19.1046 3 18V6Z" fill="#ffca28" stroke="#f57f17" stroke-width="1.5"/><rect x="7" y="10" width="10" height="7" rx="1" fill="#ffffff"/><circle cx="10" cy="12" r="1" fill="#ff9800"/><path d="M8 16L11 13L13 15L15 13L16 16H8Z" fill="#4caf50"/></svg>
+                            <span class="aero-tile-label">My Pictures</span>
+                        </div>
+                        <div class="aero-tile" id="tile-computer">
+                            <svg class="sys-icon" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="12" rx="2" fill="#0f172a" stroke="#60a5fa" stroke-width="1.5"/><path d="M5 5H19V13H5V5Z" fill="#1e293b"/><path d="M8 18H16M12 15V18" stroke="#60a5fa" stroke-width="1.5" stroke-linecap="round"/><rect x="7" y="19" width="10" height="2" rx="1" fill="#475569"/></svg>
+                            <span class="aero-tile-label">My Computer</span>
+                        </div>
+                        <div class="aero-tile" id="tile-control">
+                            <svg class="sys-icon" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="3" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/><path d="M7 8H17M7 12H17M7 16H17" stroke="#60a5fa" stroke-width="1.5" stroke-linecap="round"/><circle cx="10" cy="8" r="2" fill="#3b82f6"/><circle cx="14" cy="12" r="2" fill="#10b981"/><circle cx="9" cy="16" r="2" fill="#f59e0b"/></svg>
+                            <span class="aero-tile-label">Control Panel</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>>
 
     </div>
 
@@ -283,18 +267,36 @@
         document.getElementById('icon-terminal').addEventListener('dblclick', () => launch('Zeb Terminal', 'terminal', 'app-terminal', TerminalApp));
         document.getElementById('icon-calc').addEventListener('dblclick', () => launch('Calculator', 'calc', 'app-calc', CalcApp, 320, 420));
         document.getElementById('icon-taskmgr').addEventListener('dblclick', () => launch('Task Manager', 'taskmgr', 'app-taskmgr', TaskMgrApp));
+        const bindApp = (id, title, icon, appId, cls, w, h) => {
+            const el = document.getElementById(id);
+            if (el) el.addEventListener('click', () => launch(title, icon, appId, cls, w, h));
+        };
 
-        // Start Menu Items (Single Click)
-        document.getElementById('menu-launch-editor').addEventListener('click', () => launch('Text Editor', 'editor', 'app-editor', EditorApp));
-        document.getElementById('menu-launch-terminal').addEventListener('click', () => launch('Zeb Terminal', 'terminal', 'app-terminal', TerminalApp));
-        document.getElementById('menu-launch-calc').addEventListener('click', () => launch('Calculator', 'calc', 'app-calc', CalcApp, 320, 420));
-        document.getElementById('menu-launch-taskmgr').addEventListener('click', () => launch('Task Manager', 'taskmgr', 'app-taskmgr', TaskMgrApp));
+        // Middle App List
+        bindApp('menu-launch-editor', 'Text Editor', 'editor', 'app-editor', EditorApp);
+        bindApp('menu-launch-terminal', 'Zeb Terminal', 'terminal', 'app-terminal', TerminalApp);
+        bindApp('menu-launch-calc', 'Calculator', 'calc', 'app-calc', CalcApp, 320, 420);
+        bindApp('menu-launch-taskmgr', 'Task Manager', 'taskmgr', 'app-taskmgr', TaskMgrApp);
 
-        // Right pane shortcuts
-        document.getElementById('menu-link-documents').addEventListener('click', () => launch('Text Editor', 'editor', 'app-editor-docs', EditorApp));
-        document.getElementById('menu-link-pictures').addEventListener('click', () => launch('Text Editor', 'editor', 'app-editor-pics', EditorApp));
-        document.getElementById('menu-link-computer').addEventListener('click', () => launch('Task Manager', 'taskmgr', 'app-taskmgr-comp', TaskMgrApp));
-        document.getElementById('menu-link-control').addEventListener('click', () => launch('Task Manager', 'taskmgr', 'app-taskmgr-ctrl', TaskMgrApp));
+        bindApp('menu-list-editor', 'Text Editor', 'editor', 'app-editor', EditorApp);
+        bindApp('menu-list-terminal', 'Zeb Terminal', 'terminal', 'app-terminal', TerminalApp);
+        bindApp('menu-list-calc', 'Calculator', 'calc', 'app-calc', CalcApp, 320, 420);
+        bindApp('menu-list-taskmgr', 'Task Manager', 'taskmgr', 'app-taskmgr', TaskMgrApp);
+
+        // Right Aero Glass Tiles
+        bindApp('tile-editor', 'Text Editor', 'editor', 'app-editor', EditorApp);
+        bindApp('tile-terminal', 'Zeb Terminal', 'terminal', 'app-terminal', TerminalApp);
+        bindApp('tile-calc', 'Calculator', 'calc', 'app-calc', CalcApp, 320, 420);
+        bindApp('tile-taskmgr', 'Task Manager', 'taskmgr', 'app-taskmgr', TaskMgrApp);
+
+        bindApp('tile-documents', 'Text Editor', 'editor', 'app-editor-docs', EditorApp);
+        bindApp('tile-pictures', 'Text Editor', 'editor', 'app-editor-pics', EditorApp);
+        bindApp('tile-computer', 'Task Manager', 'taskmgr', 'app-taskmgr-comp', TaskMgrApp);
+        bindApp('tile-control', 'Task Manager', 'taskmgr', 'app-taskmgr-ctrl', TaskMgrApp);
+
+        bindApp('menu-link-documents', 'Text Editor', 'editor', 'app-editor-docs', EditorApp);
+        bindApp('menu-link-pictures', 'Text Editor', 'editor', 'app-editor-pics', EditorApp);
+        bindApp('menu-link-control', 'Task Manager', 'taskmgr', 'app-taskmgr-ctrl', TaskMgrApp);
     </script>
 </body>
 

@@ -1,8 +1,8 @@
-// Zeb OS 3 Pre-Alpha 0.0.4 Core Kernel & Window Manager
+// Zeb OS 3 Pre-Alpha 0.0.5 Core Kernel & Window Manager
 import { getIcon } from './icons.js';
 
 let systemState = {
-    version: "3.0.1 Pre-Alpha 0.0.4",
+    version: "3.0.1 Pre-Alpha 0.0.5",
     currentUser: "Guest",
     uptime: 0,
     activeApp: null,
@@ -14,7 +14,7 @@ let systemState = {
                 "Guest": {
                     type: "dir",
                     content: {
-                        "Desktop": { type: "dir", content: { "welcome.txt": { type: "file", content: "Welcome to Zeb OS 3 Pre-Alpha 0.0.4!\nEnjoy the next generation Aero Glass operating system." } } },
+                        "Desktop": { type: "dir", content: { "welcome.txt": { type: "file", content: "Welcome to Zeb OS 3 Pre-Alpha 0.0.5!\nEnjoy the next generation Aero Glass operating system." } } },
                         "Documents": { type: "dir", content: {} },
                         "Pictures": { type: "dir", content: {} },
                         "Downloads": { type: "dir", content: {} }
@@ -31,7 +31,7 @@ let soundAudioCtx = null;
 
 // VFS Helpers
 export function getVFSFileContent(path) {
-    return "Welcome to Zeb OS 3 Pre-Alpha 0.0.4!\nEnjoy the next generation Aero Glass operating system.";
+    return "Welcome to Zeb OS 3 Pre-Alpha 0.0.5!\nEnjoy the next generation Aero Glass operating system.";
 }
 
 export function saveFileToVFS(path, content) {
@@ -218,6 +218,16 @@ function updateTaskbar() {
     });
 }
 
+let currentContextMenuRemoveHandler = null;
+
+export function closeContextMenu() {
+    if (currentContextMenuRemoveHandler) {
+        document.removeEventListener('pointerdown', currentContextMenuRemoveHandler, true);
+        currentContextMenuRemoveHandler = null;
+    }
+    document.querySelectorAll('.retro-context-menu').forEach(m => m.remove());
+}
+
 // Context Menu System with Submenus
 export function showContextMenu(x, y, items) {
     closeContextMenu();
@@ -251,7 +261,7 @@ export function showContextMenu(x, y, items) {
                                 activeSubmenu.remove();
                                 activeSubmenu = null;
                             }
-                        }, 100);
+                        }, 80);
                     }
                 });
             } else {
@@ -268,18 +278,17 @@ export function showContextMenu(x, y, items) {
 
     document.body.appendChild(menu);
 
-    const removeHandler = (e) => {
+    currentContextMenuRemoveHandler = (e) => {
         if (!e.target.closest('.retro-context-menu')) {
             closeContextMenu();
-            document.removeEventListener('click', removeHandler);
-            document.removeEventListener('contextmenu', removeHandler);
         }
     };
 
     setTimeout(() => {
-        document.addEventListener('click', removeHandler);
-        document.addEventListener('contextmenu', removeHandler);
-    }, 50);
+        if (currentContextMenuRemoveHandler) {
+            document.addEventListener('pointerdown', currentContextMenuRemoveHandler, true);
+        }
+    }, 0);
 }
 
 function createSubmenu(x, y, items) {
@@ -302,10 +311,6 @@ function createSubmenu(x, y, items) {
 
     document.body.appendChild(sub);
     return sub;
-}
-
-export function closeContextMenu() {
-    document.querySelectorAll('.retro-context-menu').forEach(m => m.remove());
 }
 
 // Icon View Sizing Helper
@@ -532,7 +537,7 @@ export function initZebOS3() {
         "CPU: Zeb x86_64 Dual-Core Processor @ 3.40 GHz",
         "Memory Test: 8192 MB OK",
         "Detecting Storage Devices... Primary Disk Z:\\ (VFS Storage) [OK]",
-        "Booting OS Kernel v0.0.4..."
+        "Booting OS Kernel v0.0.5..."
     ];
 
     // Phase 1: BIOS Text Print

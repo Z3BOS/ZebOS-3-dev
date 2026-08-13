@@ -1,0 +1,181 @@
+/* Solitaire — Aero Glass dark theme (Zeb OS 3 / UIKit3) */
+
+.solitaire-app {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    box-sizing: border-box;
+    background: var(--bg-dark);
+    font-family: var(--main-font);
+}
+
+.solitaire-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+    padding: 8px 10px;
+    background: rgba(15, 23, 42, 0.95);
+    border-bottom: 1px solid var(--aero-border);
+    box-shadow: var(--glass-reflection);
+}
+
+.solitaire-toolbar .aero-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.solitaire-hint {
+    flex-grow: 1;
+    text-align: right;
+    font-size: 11px;
+    color: var(--text-muted);
+}
+
+/* Play surface: dark slate "felt" rather than green baize */
+.solitaire-table {
+    flex-grow: 1;
+    overflow: auto;
+    position: relative;
+    box-sizing: border-box;
+    padding: 18px;
+    background:
+        radial-gradient(ellipse at 50% -10%, rgba(96, 165, 250, 0.08) 0%, rgba(96, 165, 250, 0) 55%),
+        radial-gradient(ellipse at 50% 0%, #1e293b 0%, var(--bg-dark) 75%);
+    box-shadow: inset 0 0 60px rgba(0, 0, 0, 0.5);
+}
+
+.solitaire-row {
+    display: flex;
+    gap: 14px;
+    margin-bottom: 22px;
+}
+
+.solitaire-row-spacer {
+    flex-grow: 1;
+}
+
+.solitaire-tableau-row {
+    display: flex;
+    gap: 14px;
+}
+
+/* Translucent card wells */
+.solitaire-pile-slot {
+    width: 64px;
+    height: 90px;
+    box-sizing: border-box;
+    position: relative;
+    border-radius: 7px;
+    border: 1.5px dashed var(--aero-border);
+    background: rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(6px);
+}
+
+.solitaire-pile-slot.solitaire-tableau-slot {
+    min-height: 320px;
+}
+
+.solitaire-pile-slot.solitaire-has-cards {
+    border-style: none;
+}
+
+.solitaire-pile-empty-glyph {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    color: rgba(148, 163, 184, 0.35);
+}
+
+.solitaire-waste-recycle {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    color: var(--accent-cyan);
+    opacity: 0.6;
+}
+
+/* Cards */
+.solitaire-card {
+    width: 64px;
+    height: 90px;
+    box-sizing: border-box;
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 4px 6px;
+    border-radius: 6px;
+    font-family: var(--main-font);
+    font-weight: 700;
+    cursor: pointer;
+    background: #f8fafc;
+    border: 1px solid rgba(15, 23, 42, 0.6);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+.solitaire-card.red-suit { color: #dc2626; }
+.solitaire-card.black-suit { color: #0f172a; }
+
+.solitaire-card.face-down {
+    background:
+        repeating-linear-gradient(45deg, var(--accent-blue), var(--accent-blue) 6px, #1d4ed8 6px, #1d4ed8 12px);
+    border: 1px solid var(--accent-cyan);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.45), inset 0 0 0 2px rgba(15, 23, 42, 0.4);
+}
+
+.solitaire-card .card-rank-top {
+    font-size: 13px;
+    line-height: 1;
+}
+
+.solitaire-card .card-suit-big {
+    font-size: 24px;
+    text-align: center;
+    line-height: 1.7;
+}
+
+.solitaire-card.drag-ghost {
+    position: fixed;
+    pointer-events: none;
+    opacity: 0.92;
+    z-index: 100010;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6), 0 0 0 1px var(--accent-cyan);
+}
+
+/* Win overlay */
+.solitaire-win-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(2, 6, 23, 0.65);
+    backdrop-filter: blur(8px);
+    z-index: 10;
+}
+
+.solitaire-win-panel {
+    background: rgba(15, 23, 42, 0.96);
+    backdrop-filter: blur(32px);
+    border: 1px solid var(--aero-border);
+    border-radius: 10px;
+    box-shadow: var(--window-shadow);
+    padding: 24px 32px;
+    text-align: center;
+    color: var(--text-main);
+}
+
+.solitaire-win-title {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 14px;
+    color: var(--accent-cyan);
+    text-shadow: 0 0 12px rgba(96, 165, 250, 0.5);
+}

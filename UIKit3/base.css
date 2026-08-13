@@ -19,7 +19,21 @@
     --win-body-bg: #f8fafc;
     --text-primary: #1e293b;
     --text-muted: #64748b;
-    
+
+    /* Dark Aero Glass tokens — documented in UIKit3/README.md and used
+       throughout the ported ZebOS 2 apps (mines, snake, solitaire, chess,
+       paint, explorer, activitycenter, courgette, run, vm, sysflags,
+       reinstaller). These were referenced via var() before ever being
+       defined here, so their text/backgrounds silently fell back to the
+       light-theme --text-primary above (dark navy) instead of white. */
+    --bg-dark: #0f172a;
+    --accent-blue: var(--aero-accent-blue);
+    --accent-cyan: var(--aero-accent-light);
+    --text-main: #ffffff;
+    --aero-border: rgba(255, 255, 255, 0.25);
+    --glass-reflection: inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    --window-shadow: var(--aero-glass-shadow);
+
     /* Font */
     --main-font: 'Segoe UI', system-ui, -apple-system, sans-serif;
 }

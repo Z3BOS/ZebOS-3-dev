@@ -7,6 +7,13 @@ let systemState = {
     uptime: 0,
     activeApp: null,
     hasLoggedInBefore: false,
+    savedUsername: null,
+    savedAvatar: null,
+    alwaysShowSetup: false,
+    desktopBackground: null,
+    desktopPattern: 'solid',
+    soundScheme: 'classic',
+    roundedCorners: false,
     fileSystem: {
         "Users": {
             type: "dir",
@@ -29,13 +36,213 @@ let zIndexCounter = 100;
 let activeWindows = new Map();
 let soundAudioCtx = null;
 
-// VFS Helpers
-export function getVFSFileContent(path) {
-    return "Welcome to Zeb OS 3 Pre-Alpha 0.0.5!\nEnjoy the next generation Aero Glass operating system.";
+// ==========================================================================
+// PERSISTENT VFS STORAGE (LOCALSTORAGE-BACKED)
+// ==========================================================================
+function loadPersistedState() {
+    try {
+        const diskImage = localStorage.getItem('ZEBOS3_DISK');
+        const settings = localStorage.getItem('ZEBOS3_SETTINGS');
+        if (diskImage) {
+            const parsed = JSON.parse(diskImage);
+            if (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) {
+                systemState.fileSystem = parsed;
+            }
+        }
+        if (settings) {
+            const s = JSON.parse(settings);
+            Object.assign(systemState, s);
+        }
+    } catch (e) { /* ignore corrupted storage */ }
 }
 
+export function saveFileSystem() {
+    try {
+        localStorage.setItem('ZEBOS3_DISK', JSON.stringify(systemState.fileSystem));
+        localStorage.setItem('ZEBOS3_SETTINGS', JSON.stringify({
+            hasLoggedInBefore: systemState.hasLoggedInBefore,
+            savedUsername: systemState.savedUsername,
+            savedAvatar: systemState.savedAvatar,
+            alwaysShowSetup: systemState.alwaysShowSetup,
+            desktopBackground: systemState.desktopBackground,
+            desktopPattern: systemState.desktopPattern,
+            soundScheme: systemState.soundScheme,
+            roundedCorners: systemState.roundedCorners,
+        }));
+    } catch (e) { /* localStorage unavailable */ }
+}
+
+loadPersistedState();
+
+// ==========================================================================
+// VIRTUAL FILE SYSTEM (VFS) HELPERS
+// ==========================================================================
+export function getVfsNodeByPath(pathStr) {
+    if (pathStr === null || pathStr === undefined) return systemState.fileSystem;
+    let clean = String(pathStr).trim().replace(/^Z:\\?/i, '').replace(/\\/g, '/');
+    if (!clean || clean === '/' ) return systemState.fileSystem;
+    const parts = clean.split('/').filter(Boolean);
+    let curr = systemState.fileSystem;
+    for (const part of parts) {
+        if (curr[part] && curr[part].type === 'dir') {
+            if (!curr[part].content) curr[part].content = {};
+            curr = curr[part].content;
+        } else if (curr[part] && typeof curr[part] === 'object' && !curr[part].type) {
+            curr = curr[part];
+        } else {
+            return null;
+        }
+    }
+    return curr;
+}
+
+export function getActiveFolderContext(explicitPath = null) {
+    if (explicitPath !== null && explicitPath !== undefined) {
+        const ctx = getVfsNodeByPath(explicitPath);
+        if (ctx) return ctx;
+    }
+    return systemState.fileSystem;
+}
+
+export function ensureUserProfileFolder(rawUsername) {
+    const name = (rawUsername && rawUsername.trim()) ? rawUsername.trim() : 'Guest';
+    const formatted = name.charAt(0).toUpperCase() + name.slice(1);
+    if (!systemState.fileSystem['Users']) systemState.fileSystem['Users'] = { type: 'dir', content: {} };
+    const usersContent = systemState.fileSystem['Users'].content;
+    if (!usersContent[formatted]) {
+        usersContent[formatted] = {
+            type: 'dir',
+            content: {
+                Desktop: { type: 'dir', content: { 'welcome.txt': { type: 'file', content: `Welcome to Zeb OS 3, ${formatted}!` } } },
+                Documents: { type: 'dir', content: {} },
+                Pictures: { type: 'dir', content: {} },
+                Downloads: { type: 'dir', content: {} }
+            }
+        };
+        saveFileSystem();
+    }
+    systemState.currentUser = formatted;
+    return formatted;
+}
+
+function getUniqueVfsFilename(dirNode, desiredName) {
+    if (!dirNode[desiredName]) return desiredName;
+    const dotIdx = desiredName.lastIndexOf('.');
+    const base = dotIdx > 0 ? desiredName.slice(0, dotIdx) : desiredName;
+    const ext = dotIdx > 0 ? desiredName.slice(dotIdx) : '';
+    let n = 2;
+    while (dirNode[`${base} (${n})${ext}`]) n++;
+    return `${base} (${n})${ext}`;
+}
+
+// Reads a file's content by VFS path (e.g. "Users/Guest/Documents/notes.txt").
+export function getVFSFileContent(path) {
+    if (!path) return '';
+    let clean = String(path).trim().replace(/^Z:\\?/i, '').replace(/\\/g, '/');
+    const parts = clean.split('/').filter(Boolean);
+    const fileName = parts.pop();
+    const dirNode = getVfsNodeByPath(parts.join('/'));
+    const entry = dirNode && dirNode[fileName];
+    if (entry && entry.type === 'file') return entry.content;
+    return '';
+}
+
+// Writes/overwrites a file's content at a VFS path, creating it if needed.
 export function saveFileToVFS(path, content) {
+    if (!path) return false;
+    let clean = String(path).trim().replace(/^Z:\\?/i, '').replace(/\\/g, '/');
+    const parts = clean.split('/').filter(Boolean);
+    const fileName = parts.pop();
+    const dirNode = getVfsNodeByPath(parts.join('/'));
+    if (!dirNode) return false;
+    dirNode[fileName] = { type: 'file', content };
+    saveFileSystem();
     return true;
+}
+
+// Saves a file into a target directory path, auto-deduplicating the filename
+// (e.g. "photo.png" -> "photo (2).png") rather than overwriting. Returns the
+// final filename that was used, or false if the target directory is invalid.
+export function saveFileToVfsPath(dirPath, fileName, content) {
+    const dirNode = getVfsNodeByPath(dirPath);
+    if (!dirNode) return false;
+    const finalName = getUniqueVfsFilename(dirNode, fileName);
+    dirNode[finalName] = { type: 'file', content };
+    saveFileSystem();
+    return finalName;
+}
+
+export function deleteVfsEntry(dirPath, entryName) {
+    const dirNode = getVfsNodeByPath(dirPath);
+    if (!dirNode || !dirNode[entryName]) return false;
+    delete dirNode[entryName];
+    saveFileSystem();
+    return true;
+}
+
+export function createVfsFolder(dirPath, folderName) {
+    const dirNode = getVfsNodeByPath(dirPath);
+    if (!dirNode) return false;
+    const finalName = getUniqueVfsFilename(dirNode, folderName);
+    dirNode[finalName] = { type: 'dir', content: {} };
+    saveFileSystem();
+    return finalName;
+}
+
+// ==========================================================================
+// REGISTRY-LITE API
+// A thin read/write window onto systemState's appearance/session fields —
+// not a separate data store. Personalize and Registry Editor both read and
+// write through this, so edits from either take effect live in the other.
+// ==========================================================================
+export function getRegistrySnapshot() {
+    return {
+        version: systemState.version,
+        currentUser: systemState.currentUser,
+        hasLoggedInBefore: systemState.hasLoggedInBefore,
+        savedUsername: systemState.savedUsername,
+        alwaysShowSetup: systemState.alwaysShowSetup,
+        desktopBackground: systemState.desktopBackground,
+        desktopPattern: systemState.desktopPattern,
+        soundScheme: systemState.soundScheme,
+        roundedCorners: systemState.roundedCorners,
+    };
+}
+
+export function setRegistryValue(field, rawValue) {
+    systemState[field] = rawValue;
+    if (field === 'desktopBackground' || field === 'desktopPattern') {
+        applyDesktopAppearance();
+    }
+    if (field === 'roundedCorners') {
+        document.body.classList.toggle('rounded-corners', !!rawValue);
+    }
+    saveFileSystem();
+}
+
+function applyDesktopAppearance() {
+    const desktop = document.getElementById('desktop-canvas');
+    if (!desktop || !systemState.desktopBackground) return;
+    const color = systemState.desktopBackground;
+    const pattern = systemState.desktopPattern || 'solid';
+    document.body.style.backgroundImage = 'none';
+    desktop.style.backgroundColor = color;
+    if (pattern === 'gradient') {
+        desktop.style.backgroundImage = `linear-gradient(135deg, ${color} 0%, #0f172a 100%)`;
+    } else {
+        desktop.style.backgroundImage = 'none';
+    }
+}
+
+// ==========================================================================
+// WINDOW CLEANUP REGISTRY
+// Apps register a teardown callback (e.g. stopping a camera stream or a game
+// loop) keyed by their window id; closeWindow() invokes and discards it.
+// ==========================================================================
+const windowCleanupHandlers = new Map();
+
+export function registerWindowCleanup(winId, cleanupFn) {
+    windowCleanupHandlers.set(winId, cleanupFn);
 }
 
 export function getActiveWindowsList() {
@@ -185,6 +392,11 @@ export function bringToFront(frame) {
 }
 
 export function closeWindow(winId) {
+    const cleanup = windowCleanupHandlers.get(winId);
+    if (cleanup) {
+        try { cleanup(); } catch (e) { /* app cleanup should never break the shell */ }
+        windowCleanupHandlers.delete(winId);
+    }
     const win = activeWindows.get(winId);
     if (win) {
         win.element.remove();
@@ -680,11 +892,32 @@ function setupDesktopSelectionBox() {
 }
 
 // BIOS + Boot Sequence Init
+// After the boot screen fades, either skip straight to the desktop for a
+// recognized returning user, or show the sign-in screen (dynamically
+// imported so os3.js and logon/logon.js don't form a static import cycle).
+function proceedToLogon() {
+    if (!systemState.alwaysShowSetup && systemState.hasLoggedInBefore && systemState.savedUsername) {
+        ensureUserProfileFolder(systemState.savedUsername);
+        return;
+    }
+    import('./logon/logon.js').then(module => {
+        module.showLogonScreen((username, avatarPath) => {
+            systemState.savedUsername = username;
+            systemState.savedAvatar = avatarPath;
+            systemState.hasLoggedInBefore = true;
+            ensureUserProfileFolder(username);
+            saveFileSystem();
+        }, systemState.savedUsername || 'Guest', systemState.savedAvatar);
+    }).catch(() => { /* logon module unavailable — desktop is already visible underneath */ });
+}
+
 export function initZebOS3() {
     startClock();
     setupStartMenu();
     setupContextMenuListeners();
     setupDesktopSelectionBox();
+    applyDesktopAppearance();
+    if (systemState.roundedCorners) document.body.classList.add('rounded-corners');
 
     const biosScreen = document.getElementById('bios-screen');
     const bootScreen = document.getElementById('boot-screen');
@@ -722,6 +955,7 @@ export function initZebOS3() {
                         bootScreen.style.opacity = '0';
                         setTimeout(() => bootScreen.remove(), 600);
                     }
+                    proceedToLogon();
                 }, 2000);
             }, 1400);
         }

@@ -246,16 +246,38 @@
     </div>
 
     <script type="module">
-        import { createWindow } from './os3.js';
+        import { createWindow, closeWindow, registerWindowCleanup } from './os3.js';
+        import { getIcon } from './icons.js';
         import { EditorApp } from './programs/editor.js';
         import { TerminalApp } from './programs/terminal.js';
         import { CalcApp } from './programs/calc.js';
         import { TaskMgrApp } from './programs/taskmgr.js';
+        import { CameraApp } from './programs/camera.js';
+        import { MinesApp } from './programs/mines.js';
+        import { SnakeApp } from './programs/snake.js';
+        import { SolitaireApp } from './programs/solitaire.js';
+        import { ChessApp } from './programs/chess.js';
+        import { ActivityCenterApp } from './programs/activitycenter.js';
+        import { CourgetteApp } from './programs/courgette.js';
+        import { RunApp } from './programs/run.js';
+        import { MediaApp } from './programs/media.js';
+        import { ViewerApp } from './programs/viewer.js';
+        import { PaintApp } from './programs/paint.js';
+        import { ExplorerApp } from './programs/explorer.js';
+        import { PersonalizeApp } from './programs/personalize.js';
+        import { RegeditApp } from './programs/regedit.js';
+        import { ReinstallerApp } from './devtools/reinstaller.js';
+        import { SysFlagsApp } from './devtools/sysflags.js';
+        import { ZebVMApp } from './programs/vm.js';
 
         // Launcher helper
-        const launch = (title, icon, winId, AppClass, w = 600, h = 420) => {
+        const launch = (title, icon, winId, AppClass, w = 600, h = 420, ...ctorArgs) => {
             const body = createWindow(title, icon, winId, w, h);
-            if (body) new AppClass(() => { }).open(body);
+            if (body) {
+                const instance = new AppClass(() => closeWindow(winId), ...ctorArgs);
+                registerWindowCleanup(winId, () => instance.cleanup());
+                instance.open(body);
+            }
             document.getElementById('start-menu').classList.add('hidden-view');
         };
 
@@ -287,14 +309,109 @@
         bindApp('tile-calc', 'Calculator', 'calc', 'app-calc', CalcApp, 320, 420);
         bindApp('tile-taskmgr', 'Task Manager', 'taskmgr', 'app-taskmgr', TaskMgrApp);
 
-        bindApp('tile-documents', 'Text Editor', 'editor', 'app-editor-docs', EditorApp);
-        bindApp('tile-pictures', 'Text Editor', 'editor', 'app-editor-pics', EditorApp);
-        bindApp('tile-computer', 'Task Manager', 'taskmgr', 'app-taskmgr-comp', TaskMgrApp);
-        bindApp('tile-control', 'Task Manager', 'taskmgr', 'app-taskmgr-ctrl', TaskMgrApp);
+        // System Places tiles now point at the real apps that back them
+        bindApp('tile-documents', 'Zeb Explorer', 'explorer', 'app-explorer-docs', ExplorerApp, 760, 520);
+        bindApp('tile-pictures', 'Zeb Explorer', 'explorer', 'app-explorer-pics', ExplorerApp, 760, 520);
+        bindApp('tile-computer', 'Zeb Explorer', 'explorer', 'app-explorer-comp', ExplorerApp, 760, 520);
+        bindApp('tile-control', 'Personalize', 'personalize', 'app-personalize', PersonalizeApp, 520, 560);
 
-        bindApp('menu-link-documents', 'Text Editor', 'editor', 'app-editor-docs', EditorApp);
-        bindApp('menu-link-pictures', 'Text Editor', 'editor', 'app-editor-pics', EditorApp);
-        bindApp('menu-link-control', 'Task Manager', 'taskmgr', 'app-taskmgr-ctrl', TaskMgrApp);
+        bindApp('menu-link-documents', 'Zeb Explorer', 'explorer', 'app-explorer-docs', ExplorerApp, 760, 520);
+        bindApp('menu-link-pictures', 'Zeb Explorer', 'explorer', 'app-explorer-pics', ExplorerApp, 760, 520);
+        bindApp('menu-link-control', 'Personalize', 'personalize', 'app-personalize', PersonalizeApp, 520, 560);
+
+        // ================================================================
+        // ZebOS 2 App Port Registry — every app ported from ZebOS 2, wired
+        // in one data-driven pass instead of hand-typed markup per app.
+        // ================================================================
+        const PORTED_APPS = [
+            { key: 'camera',         title: 'Aero Camera',        icon: 'camera',         cls: CameraApp,         w: 680, h: 480, section: 'Multimedia' },
+            { key: 'paint',          title: 'Paint Studio',       icon: 'paint',          cls: PaintApp,          w: 900, h: 640, section: 'Multimedia' },
+            { key: 'media',          title: 'Media Player',       icon: 'media',          cls: MediaApp,          w: 680, h: 480, section: 'Multimedia' },
+            { key: 'viewer',         title: 'Zeb Viewer',         icon: 'viewer',         cls: ViewerApp,         w: 760, h: 560, section: 'Multimedia', desktop: false },
+            { key: 'mines',          title: 'Minesweeper',        icon: 'mines',          cls: MinesApp,          w: 340, h: 470, section: 'Games' },
+            { key: 'snake',          title: 'Snake',               icon: 'snake',          cls: SnakeApp,          w: 440, h: 600, section: 'Games' },
+            { key: 'solitaire',      title: 'Solitaire',          icon: 'solitaire',      cls: SolitaireApp,      w: 620, h: 560, section: 'Games' },
+            { key: 'chess',          title: 'Chess',               icon: 'chess',          cls: ChessApp,          w: 780, h: 580, section: 'Games' },
+            { key: 'explorer',       title: 'Zeb Explorer',       icon: 'explorer',       cls: ExplorerApp,       w: 760, h: 520, section: 'System Tools' },
+            { key: 'activitycenter', title: 'Activity Center',    icon: 'activitycenter', cls: ActivityCenterApp, w: 760, h: 520, section: 'System Tools' },
+            { key: 'courgette',      title: 'Courgette',          icon: 'courgette',      cls: CourgetteApp,      w: 520, h: 360, section: 'System Tools' },
+            { key: 'personalize',    title: 'Personalize',        icon: 'personalize',    cls: PersonalizeApp,    w: 520, h: 560, section: 'System Tools' },
+            { key: 'regedit',        title: 'Registry Editor',    icon: 'regedit',        cls: RegeditApp,        w: 560, h: 420, section: 'System Tools' },
+            { key: 'vm',             title: 'ZebVM',               icon: 'vm',             cls: ZebVMApp,          w: 760, h: 500, section: 'System Tools' },
+            { key: 'run',            title: 'Run',                 icon: 'run',            cls: RunApp,            w: 440, h: 230, section: 'System Tools', desktop: false },
+            { key: 'sysflags',       title: 'System Flags',       icon: 'sysflags',       cls: SysFlagsApp,       w: 480, h: 560, section: 'System Tools', desktop: false },
+            { key: 'reinstall',      title: 'Reinstaller',        icon: 'reinstall',      cls: ReinstallerApp,    w: 460, h: 280, section: 'System Tools', desktop: false },
+        ];
+        const APP_BY_KEY = Object.fromEntries(PORTED_APPS.map(a => [a.key, a]));
+        const launchPortedApp = (app) => launch(app.title, app.icon, `app-${app.key}`, app.cls, app.w, app.h);
+
+        // Desktop icons for every ported app that wants one
+        const desktopZone = document.getElementById('desktop-icons-zone');
+        PORTED_APPS.filter(a => a.desktop !== false).forEach(app => {
+            const el = document.createElement('div');
+            el.className = 'desktop-icon';
+            el.id = `icon-${app.key}`;
+            el.title = 'Double click to open';
+            el.innerHTML = `${getIcon(app.icon)}<div class="desktop-icon-label">${app.title}</div>`;
+            el.addEventListener('dblclick', () => launchPortedApp(app));
+            desktopZone.appendChild(el);
+        });
+
+        // Start Menu — "More Apps" alphabetical list (Column 2)
+        const startAppList = document.getElementById('start-app-list');
+        const moreHeader = document.createElement('div');
+        moreHeader.className = 'start-section-title';
+        moreHeader.textContent = 'More Apps';
+        startAppList.appendChild(moreHeader);
+        PORTED_APPS.slice().sort((a, b) => a.title.localeCompare(b.title)).forEach(app => {
+            const el = document.createElement('div');
+            el.className = 'start-list-item';
+            el.id = `menu-launch-${app.key}`;
+            el.innerHTML = `${getIcon(app.icon)}<span>${app.title}</span>`;
+            el.addEventListener('click', () => launchPortedApp(app));
+            startAppList.appendChild(el);
+        });
+
+        // Start Menu — grouped tile sections (Column 3)
+        const tileGrid = document.getElementById('start-tile-grid');
+        const buildTileSection = (title, apps) => {
+            if (!apps.length) return;
+            const section = document.createElement('div');
+            section.className = 'start-tile-section';
+            section.innerHTML = `<div class="start-tile-section-title">${title}</div><div class="start-tiles-container"></div>`;
+            const container = section.querySelector('.start-tiles-container');
+            apps.forEach(app => {
+                const tile = document.createElement('div');
+                tile.className = 'aero-tile';
+                tile.id = `tile-${app.key}`;
+                tile.innerHTML = `${getIcon(app.icon)}<span class="aero-tile-label">${app.title}</span>`;
+                tile.addEventListener('click', () => launchPortedApp(app));
+                container.appendChild(tile);
+            });
+            tileGrid.appendChild(section);
+        };
+        buildTileSection('Games', PORTED_APPS.filter(a => a.section === 'Games'));
+        buildTileSection('Multimedia', PORTED_APPS.filter(a => a.section === 'Multimedia'));
+        buildTileSection('System Tools', PORTED_APPS.filter(a => a.section === 'System Tools'));
+
+        // Run dialog / Activity Center dispatch a 'zebos-run-launch' CustomEvent
+        // with a short app key (see programs/run.js's COMMAND_MAP) instead of
+        // calling a launcher directly — listen for it here and dispatch for real.
+        window.addEventListener('zebos-run-launch', (e) => {
+            const detail = e.detail || {};
+            if (detail.app === 'editor') {
+                const filePath = detail.arg ? `Users/Guest/Documents/${detail.arg}` : undefined;
+                const winId = filePath ? `app-editor-${detail.arg}` : 'app-editor';
+                launch('Text Editor', 'editor', winId, EditorApp, 600, 420, ...(filePath ? [filePath] : []));
+                return;
+            }
+            const app = APP_BY_KEY[detail.app]
+                || (detail.app === 'taskmgr' ? { key: 'taskmgr', title: 'Task Manager', icon: 'taskmgr', cls: TaskMgrApp, w: 600, h: 420 } : null)
+                || (detail.app === 'calc' ? { key: 'calc', title: 'Calculator', icon: 'calc', cls: CalcApp, w: 320, h: 420 } : null)
+                || (detail.app === 'terminal' ? { key: 'terminal', title: 'Zeb Terminal', icon: 'terminal', cls: TerminalApp, w: 600, h: 420 } : null);
+            if (!app) return;
+            launchPortedApp(app);
+        });
     </script>
 </body>
 

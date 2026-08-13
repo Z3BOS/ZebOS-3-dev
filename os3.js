@@ -1,8 +1,8 @@
-// Zeb OS 3 Pre-Alpha 0.0.2 Core Kernel & Window Manager
+// Zeb OS 3 Pre-Alpha 0.0.3 Core Kernel & Window Manager
 import { getIcon } from './icons.js';
 
 let systemState = {
-    version: "3.0.1 Pre-Alpha 0.0.2",
+    version: "3.0.1 Pre-Alpha 0.0.3",
     currentUser: "Guest",
     uptime: 0,
     activeApp: null,
@@ -14,7 +14,7 @@ let systemState = {
                 "Guest": {
                     type: "dir",
                     content: {
-                        "Desktop": { type: "dir", content: { "welcome.txt": { type: "file", content: "Welcome to Zeb OS 3 Pre-Alpha 0.0.2!\nEnjoy the next generation Aero Glass operating system." } } },
+                        "Desktop": { type: "dir", content: { "welcome.txt": { type: "file", content: "Welcome to Zeb OS 3 Pre-Alpha 0.0.3!\nEnjoy the next generation Aero Glass operating system." } } },
                         "Documents": { type: "dir", content: {} },
                         "Pictures": { type: "dir", content: {} },
                         "Downloads": { type: "dir", content: {} }
@@ -31,7 +31,7 @@ let soundAudioCtx = null;
 
 // VFS Helpers
 export function getVFSFileContent(path) {
-    return "Welcome to Zeb OS 3 Pre-Alpha 0.0.2!\nEnjoy the next generation Aero Glass operating system.";
+    return "Welcome to Zeb OS 3 Pre-Alpha 0.0.3!\nEnjoy the next generation Aero Glass operating system.";
 }
 
 export function saveFileToVFS(path, content) {
@@ -328,42 +328,52 @@ function setupContextMenuListeners() {
     }
 }
 
-// Boot Screen Init
+// BIOS + Boot Sequence Init
 export function initZebOS3() {
     startClock();
     setupStartMenu();
     setupContextMenuListeners();
 
+    const biosScreen = document.getElementById('bios-screen');
     const bootScreen = document.getElementById('boot-screen');
-    const logConsole = document.getElementById('boot-log-console');
 
-    const bootLogs = [
-        "ZEB OS 3 PRE-ALPHA [Kernel v0.0.2.build8f31]",
-        "Initializing Aero Glass Compositor Engine...",
-        "Loading Shell Controllers & Desktop Canvas...",
-        "Mounting VFS Persistent Storage Device...",
-        "Ready. Welcome to Zeb OS 3!"
+    const biosLines = [
+        "ZEB OS Modular BIOS v3.02 (C) 2026 Zeb Core Systems",
+        "CPU: Zeb x86_64 Dual-Core Processor @ 3.40 GHz",
+        "Memory Test: 8192 MB OK",
+        "Detecting Storage Devices... Primary Disk Z:\\ (VFS Storage) [OK]",
+        "Booting OS Kernel v0.0.3..."
     ];
 
-    let logIdx = 0;
-    const interval = setInterval(() => {
-        if (logIdx < bootLogs.length) {
-            if (logConsole) {
+    // Phase 1: BIOS Text Print
+    let lineIdx = 0;
+    const biosInterval = setInterval(() => {
+        if (lineIdx < biosLines.length) {
+            if (biosScreen) {
                 const line = document.createElement('div');
-                line.textContent = `> ${bootLogs[logIdx]}`;
-                logConsole.appendChild(line);
+                line.className = 'bios-line';
+                line.textContent = biosLines[lineIdx];
+                biosScreen.appendChild(line);
             }
-            logIdx++;
+            lineIdx++;
         } else {
-            clearInterval(interval);
+            clearInterval(biosInterval);
+            // Fade out BIOS screen after 1.4s
             setTimeout(() => {
-                if (bootScreen) {
-                    bootScreen.style.opacity = '0';
-                    setTimeout(() => bootScreen.remove(), 800);
+                if (biosScreen) {
+                    biosScreen.style.opacity = '0';
+                    setTimeout(() => biosScreen.remove(), 400);
                 }
-            }, 2500);
+                // Phase 2: Loading Splash Screen displays for 2.0s then fades out
+                setTimeout(() => {
+                    if (bootScreen) {
+                        bootScreen.style.opacity = '0';
+                        setTimeout(() => bootScreen.remove(), 600);
+                    }
+                }, 2000);
+            }, 1400);
         }
-    }, 400);
+    }, 200);
 }
 
 window.addEventListener('DOMContentLoaded', initZebOS3);

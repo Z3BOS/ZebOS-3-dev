@@ -1,31 +1,19 @@
-// Vector SVG Icons for Zeb OS 3 Pre-Alpha 0.0.2
+// Vector SVG Icons for Zeb OS 3 Pre-Alpha 0.0.3
 
 const SVGS = {
+    zLogo: `
+        <svg class="sys-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4 5H20L7 19H20" stroke="#ffffff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+    `,
     orbLogo: `
-        <svg class="sys-icon" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="16" cy="16" r="14" fill="url(#orbGrad3)" stroke="#ffffff" stroke-width="1.5"/>
-            <path d="M10 10H22L12 22H22" stroke="#ffffff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-            <defs>
-                <linearGradient id="orbGrad3" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
-                    <stop stop-color="#60a5fa"/>
-                    <stop offset="0.5" stop-color="#0078d7"/>
-                    <stop offset="1" stop-color="#051c38"/>
-                </linearGradient>
-            </defs>
+        <svg class="sys-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4 5H20L7 19H20" stroke="#ffffff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
     `,
     zeb3Logo: `
-        <svg class="sys-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="4" y="4" width="40" height="40" rx="10" fill="url(#z3Grad)" stroke="#ffffff" stroke-width="2"/>
-            <path d="M14 15H34L18 33H34" stroke="#ffffff" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M14 15H34L18 33H34" stroke="#60a5fa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            <defs>
-                <linearGradient id="z3Grad" x1="4" y1="4" x2="44" y2="44" gradientUnits="userSpaceOnUse">
-                    <stop stop-color="#60a5fa"/>
-                    <stop offset="0.6" stop-color="#0078d7"/>
-                    <stop offset="1" stop-color="#031024"/>
-                </linearGradient>
-            </defs>
+        <svg class="sys-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4 5H20L7 19H20" stroke="#ffffff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
     `,
     explorer: `
@@ -127,7 +115,7 @@ const SVGS = {
 };
 
 export function getIcon(name, customClass = "") {
-    const rawSvg = SVGS[name] || SVGS.explorer;
+    const rawSvg = SVGS[name] || SVGS.zLogo;
     if (!customClass) return rawSvg.trim();
     return rawSvg.replace('class="sys-icon"', `class="sys-icon ${customClass}"`).trim();
 }

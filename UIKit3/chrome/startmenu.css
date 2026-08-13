@@ -1,17 +1,17 @@
-/* Soft Blue Dual-Pane Aero Glass Start Menu */
+/* Modern Zeb OS 3 Aero Glass Start Menu */
 
 #start-menu {
     position: fixed;
     bottom: 46px;
     left: 8px;
     width: 380px;
-    height: 520px;
-    background: rgba(15, 23, 42, 0.88);
+    height: 510px;
+    background: rgba(15, 23, 42, 0.92);
     backdrop-filter: blur(24px);
     -webkit-backdrop-filter: blur(24px);
-    border: 1px solid rgba(255, 255, 255, 0.35);
+    border: 1px solid rgba(147, 197, 253, 0.35);
     border-radius: 10px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), 0 0 25px rgba(37, 99, 235, 0.25), inset 0 1px 1px rgba(255, 255, 255, 0.5);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), 0 0 25px rgba(37, 99, 235, 0.25);
     display: flex;
     flex-direction: column;
     z-index: 99995;
@@ -26,44 +26,49 @@
     to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
-/* User Profile Header Strip */
+/* Header Strip with Soft Light Blue Accent Line */
 #start-menu-header {
-    height: 54px;
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.12) 0%, rgba(0, 0, 0, 0.3) 100%);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+    height: 56px;
+    background: linear-gradient(180deg, #1e3a8a 0%, #0f172a 100%);
+    border-bottom: 2px solid #60a5fa;
     display: flex;
     align-items: center;
     padding: 0 14px;
     gap: 12px;
+    color: #ffffff;
 }
 
 .start-user-avatar {
     width: 36px;
     height: 36px;
     border-radius: 50%;
-    border: 2px solid #ffffff;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
-    object-fit: cover;
-    background: #2563eb;
+    border: 2px solid #60a5fa;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+    background: #1e293b;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
 }
 
 .start-user-name {
     font-size: 14px;
     font-weight: 600;
+    color: #ffffff;
     text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
 }
 
-/* Dual-Pane Layout Container */
+/* Dual-Pane Layout */
 #start-menu-panes {
     flex-grow: 1;
     display: flex;
     overflow: hidden;
 }
 
-/* Left Pane: Pinned & All Programs */
+/* Left Pane: Programs */
 #start-left-pane {
-    width: 220px;
-    background: rgba(255, 255, 255, 0.95);
+    width: 210px;
+    background: #ffffff;
     color: #1e293b;
     display: flex;
     flex-direction: column;
@@ -76,18 +81,42 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    padding: 6px 10px;
+    padding: 8px 10px;
     border-radius: 4px;
     font-size: 12px;
     font-weight: 500;
     cursor: pointer;
-    transition: background 0.12s ease, transform 0.1s ease;
+    transition: background 0.12s ease, color 0.12s ease;
 }
 
 .start-item:hover {
-    background: linear-gradient(180deg, rgba(37, 99, 235, 0.12) 0%, rgba(37, 99, 235, 0.25) 100%);
-    color: #2563eb;
+    background: #2563eb;
+    color: #ffffff;
     font-weight: 600;
+}
+
+.start-item-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.start-item-title {
+    font-size: 12px;
+    font-weight: 600;
+    color: #1e293b;
+}
+
+.start-item:hover .start-item-title {
+    color: #ffffff;
+}
+
+.start-item-desc {
+    font-size: 10px;
+    color: #64748b;
+}
+
+.start-item:hover .start-item-desc {
+    color: #93c5fd;
 }
 
 .start-item .sys-icon {
@@ -96,36 +125,67 @@
     flex-shrink: 0;
 }
 
-/* Right Pane: System Shortcuts */
+.start-all-programs {
+    margin-top: auto;
+    border-top: 1px solid #e2e8f0;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-weight: 600;
+    font-size: 12px;
+    color: #1e293b;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.start-all-programs:hover {
+    background: #2563eb;
+    color: #ffffff;
+}
+
+/* Right Pane: System Links */
 #start-right-pane {
     flex-grow: 1;
-    background: rgba(15, 23, 42, 0.4);
+    background: #0f172a;
     display: flex;
     flex-direction: column;
     padding: 8px 6px;
-    gap: 2px;
+    gap: 4px;
     border-left: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .start-sys-item {
     display: flex;
     align-items: center;
-    gap: 8px;
-    padding: 6px 10px;
+    gap: 10px;
+    padding: 8px 10px;
     border-radius: 4px;
     font-size: 12px;
     font-weight: 500;
-    color: #e2e8f0;
+    color: #cbd5e1;
     cursor: pointer;
-    transition: background 0.12s ease;
+    transition: background 0.12s ease, color 0.12s ease;
 }
 
 .start-sys-item:hover {
-    background: rgba(255, 255, 255, 0.15);
+    background: rgba(59, 130, 246, 0.25);
     color: #ffffff;
 }
 
-/* Bottom Search & Power Bar */
+.start-sys-item .sys-icon {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+}
+
+.start-sys-separator {
+    height: 1px;
+    background: rgba(255, 255, 255, 0.12);
+    margin: 4px 6px;
+}
+
+/* Bottom Footer Bar */
 #start-menu-footer {
     height: 48px;
     background: rgba(0, 0, 0, 0.4);
@@ -139,17 +199,17 @@
 
 .start-search-input {
     flex-grow: 1;
-    background: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.95);
     border: 1px solid rgba(255, 255, 255, 0.4);
     border-radius: 4px;
-    padding: 4px 8px;
+    padding: 6px 10px;
     font-size: 11px;
     outline: none;
     color: #000000;
 }
 
 .start-power-btn {
-    padding: 4px 12px;
+    padding: 6px 14px;
     background: linear-gradient(180deg, #dc2626 0%, #991b1b 100%);
     border: 1px solid #f87171;
     border-radius: 4px;

@@ -2,16 +2,18 @@
 
 #start-menu {
     position: fixed;
-    bottom: 46px;
-    left: 8px;
+    bottom: 40px;
+    left: 0;
     width: 390px;
     height: 490px;
-    background: rgba(15, 23, 42, 0.92);
+    background: rgba(15, 23, 42, 0.94);
     backdrop-filter: blur(24px);
     -webkit-backdrop-filter: blur(24px);
     border: 1px solid rgba(147, 197, 253, 0.35);
-    border-radius: 10px;
-    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.75), inset 0 1px 1px rgba(255, 255, 255, 0.2);
+    border-bottom: none;
+    border-left: none;
+    border-radius: 0 10px 0 0;
+    box-shadow: 6px -6px 30px rgba(0, 0, 0, 0.75), inset 0 1px 1px rgba(255, 255, 255, 0.2);
     display: flex;
     flex-direction: column;
     z-index: 99995;
@@ -60,7 +62,7 @@
     overflow: hidden;
 }
 
-/* Left Pane: Programs (Dark Glass - No Pure White) */
+/* Left Pane: Programs (Dark Glass) */
 #start-left-pane {
     width: 215px;
     background: rgba(30, 41, 59, 0.85);

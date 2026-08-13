@@ -1,9 +1,8 @@
-/* Translucent Aero Glass Taskbar & XP Blue Start Button */
+/* Translucent Aero Glass Taskbar & Z Logo Start Button */
 
 #system-taskbar {
     position: fixed;
-    bottom: 0;
-    left: 0;
+    bottom: 0; left: 0;
     width: 100vw;
     height: 40px;
     background: rgba(15, 23, 42, 0.75);
@@ -19,27 +18,22 @@
     user-select: none;
 }
 
-/* Authentic Blue Start Button */
+/* Authentic Z Logo Start Button */
 #start-button {
     height: 34px;
-    padding: 0 16px 0 10px;
-    border-radius: 0 14px 14px 0;
+    width: 48px;
+    border-radius: 0 12px 12px 0;
     background: linear-gradient(180deg, #60a5fa 0%, #3b82f6 25%, #1d4ed8 70%, #1e3a8a 100%);
     border: 1px solid #93c5fd;
     border-left: none;
-    box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.8), inset 0 -1px 2px rgba(0, 0, 0, 0.4);
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.8), inset 0 -1px 2px rgba(0, 0, 0, 0.4);
     display: flex;
     align-items: center;
-    gap: 6px;
+    justify-content: center;
     cursor: pointer;
     margin-right: 12px;
     transition: filter 0.12s ease, transform 0.1s ease;
     flex-shrink: 0;
-    font-style: italic;
-    font-weight: 800;
-    font-size: 15px;
-    color: #ffffff;
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
 }
 
 #start-button:hover {
@@ -53,9 +47,9 @@
 }
 
 #start-button .sys-icon {
-    width: 20px;
-    height: 20px;
-    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.6));
+    width: 22px;
+    height: 22px;
+    filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.7));
 }
 
 /* Taskbar Window Tabs Zone */
@@ -84,7 +78,7 @@
     gap: 8px;
     cursor: pointer;
     transition: all 0.15s ease;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+    text-shadow: 0 1px 2px rgba(0,0,0,0.8);
 }
 
 .taskbar-tab:hover {

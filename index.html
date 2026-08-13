@@ -105,22 +105,22 @@
 
                 <div id="start-right-pane">
                     <div class="start-sys-item" id="menu-link-documents">
-                        <svg class="sys-icon" viewBox="0 0 24 24" fill="none"><rect x="4" y="3" width="16" height="18" rx="2" fill="#ffffff" stroke="#0078d7" stroke-width="1.5"/><path d="M8 7H16M8 11H16M8 15H12" stroke="#0078d7" stroke-width="1.5" stroke-linecap="round"/></svg>
+                        <svg class="sys-icon" viewBox="0 0 24 24" fill="none"><path d="M3 6C3 4.89543 3.89543 4 5 4H10L12 6H19C20.1046 6 21 6.89543 21 8V18C21 19.1046 20.1046 20 19 20H5C3.89543 20 3 19.1046 3 18V6Z" fill="#2563eb" stroke="#1d4ed8" stroke-width="1.5"/><rect x="7" y="10" width="10" height="7" rx="1" fill="#ffffff"/><path d="M9 12H15M9 14H13" stroke="#2563eb" stroke-width="1.2" stroke-linecap="round"/></svg>
                         <span>My Documents</span>
                     </div>
                     <div class="start-sys-item" id="menu-link-pictures">
-                        <svg class="sys-icon" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="16" rx="2" fill="#ffffff" stroke="#0078d7" stroke-width="1.5"/><circle cx="8.5" cy="8.5" r="1.5" fill="#ffb74d"/><path d="M4 17L9 12L13 16L17 11L20 14V18H4V17Z" fill="#81c784"/></svg>
+                        <svg class="sys-icon" viewBox="0 0 24 24" fill="none"><path d="M3 6C3 4.89543 3.89543 4 5 4H10L12 6H19C20.1046 6 21 6.89543 21 8V18C21 19.1046 20.1046 20 19 20H5C3.89543 20 3 19.1046 3 18V6Z" fill="#ffca28" stroke="#f57f17" stroke-width="1.5"/><rect x="7" y="10" width="10" height="7" rx="1" fill="#ffffff"/><circle cx="10" cy="12" r="1" fill="#ff9800"/><path d="M8 16L11 13L13 15L15 13L16 16H8Z" fill="#4caf50"/></svg>
                         <span>My Pictures</span>
                     </div>
                     <div class="start-sys-item" id="menu-link-computer">
-                        <svg class="sys-icon" viewBox="0 0 24 24" fill="none"><path d="M3 6C3 4.89543 3.89543 4 5 4H10L12 6H19C20.1046 6 21 6.89543 21 8V18C21 19.1046 20.1046 20 19 20H5C3.89543 20 3 19.1046 3 18V6Z" fill="#ffca28" stroke="#f57f17" stroke-width="1.5"/><path d="M3 9H21V18C21 19.1046 20.1046 20 19 20H5C3.89543 20 3 19.1046 3 18V9Z" fill="#ffe082"/></svg>
+                        <svg class="sys-icon" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="12" rx="2" fill="#0f172a" stroke="#60a5fa" stroke-width="1.5"/><path d="M5 5H19V13H5V5Z" fill="#1e293b"/><path d="M8 18H16M12 15V18" stroke="#60a5fa" stroke-width="1.5" stroke-linecap="round"/><rect x="7" y="19" width="10" height="2" rx="1" fill="#475569"/></svg>
                         <span>My Computer</span>
                     </div>
 
                     <div class="start-sys-separator"></div>
 
                     <div class="start-sys-item" id="menu-link-control">
-                        <svg class="sys-icon" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="2" fill="#0f172a" stroke="#3b82f6" stroke-width="1.5"/><path d="M5 14L9 10L13 14L19 7" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        <svg class="sys-icon" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="3" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/><path d="M7 8H17M7 12H17M7 16H17" stroke="#60a5fa" stroke-width="1.5" stroke-linecap="round"/><circle cx="10" cy="8" r="2" fill="#3b82f6"/><circle cx="14" cy="12" r="2" fill="#10b981"/><circle cx="9" cy="16" r="2" fill="#f59e0b"/></svg>
                         <span>Control Panel</span>
                     </div>
                 </div>
@@ -140,7 +140,6 @@
             <svg class="sys-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M4 5H20L7 19H20" stroke="#ffffff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
-            <span>start</span>
         </div>
 
         <div id="taskbar-tabs-zone"></div>
@@ -158,8 +157,8 @@
         import { TaskMgrApp } from './programs/taskmgr.js';
 
         // Launcher helper
-        const launch = (title, icon, winId, AppClass) => {
-            const body = createWindow(title, icon, winId);
+        const launch = (title, icon, winId, AppClass, w = 600, h = 420) => {
+            const body = createWindow(title, icon, winId, w, h);
             if (body) new AppClass(() => { }).open(body);
             document.getElementById('start-menu').classList.add('hidden-view');
         };
@@ -167,13 +166,13 @@
         // Desktop Icons (DOUBLE-CLICK)
         document.getElementById('icon-editor').addEventListener('dblclick', () => launch('Text Editor', 'editor', 'app-editor', EditorApp));
         document.getElementById('icon-terminal').addEventListener('dblclick', () => launch('Zeb Terminal', 'terminal', 'app-terminal', TerminalApp));
-        document.getElementById('icon-calc').addEventListener('dblclick', () => launch('Calculator', 'calc', 'app-calc', CalcApp));
+        document.getElementById('icon-calc').addEventListener('dblclick', () => launch('Calculator', 'calc', 'app-calc', CalcApp, 320, 420));
         document.getElementById('icon-taskmgr').addEventListener('dblclick', () => launch('Task Manager', 'taskmgr', 'app-taskmgr', TaskMgrApp));
 
         // Start Menu Items (Single Click)
         document.getElementById('menu-launch-editor').addEventListener('click', () => launch('Text Editor', 'editor', 'app-editor', EditorApp));
         document.getElementById('menu-launch-terminal').addEventListener('click', () => launch('Zeb Terminal', 'terminal', 'app-terminal', TerminalApp));
-        document.getElementById('menu-launch-calc').addEventListener('click', () => launch('Calculator', 'calc', 'app-calc', CalcApp));
+        document.getElementById('menu-launch-calc').addEventListener('click', () => launch('Calculator', 'calc', 'app-calc', CalcApp, 320, 420));
         document.getElementById('menu-launch-taskmgr').addEventListener('click', () => launch('Task Manager', 'taskmgr', 'app-taskmgr', TaskMgrApp));
 
         // Right pane shortcuts

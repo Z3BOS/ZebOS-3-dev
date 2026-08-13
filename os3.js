@@ -80,7 +80,7 @@ export function playSystemSound(type = 'click') {
 }
 
 // Window Management
-export function createWindow(title, iconName, winId) {
+export function createWindow(title, iconName, winId, customW = 600, customH = 420) {
     playSystemSound('open');
     let existingWin = document.getElementById(winId);
     if (existingWin) {
@@ -91,8 +91,8 @@ export function createWindow(title, iconName, winId) {
     const frame = document.createElement('div');
     frame.id = winId;
     frame.className = 'window-frame active-window';
-    const defaultW = 640;
-    const defaultH = 440;
+    const defaultW = customW;
+    const defaultH = customH;
     const offset = (activeWindows.size % 8) * 20;
     const centerLeft = Math.max(10, Math.floor((window.innerWidth - defaultW) / 2) + offset);
     const centerTop = Math.max(10, Math.floor((window.innerHeight - 40 - defaultH) / 2) + offset);
@@ -218,14 +218,14 @@ function updateTaskbar() {
     });
 }
 
-// Context Menu
+// Context Menu System with Submenus
 export function showContextMenu(x, y, items) {
     closeContextMenu();
 
     const menu = document.createElement('div');
     menu.className = 'retro-context-menu';
-    menu.style.left = `${Math.min(window.innerWidth - 180, x)}px`;
-    menu.style.top = `${Math.min(window.innerHeight - 220, y)}px`;
+    menu.style.left = `${Math.min(window.innerWidth - 190, x)}px`;
+    menu.style.top = `${Math.min(window.innerHeight - 240, y)}px`;
 
     items.forEach(item => {
         if (item.type === 'separator') {
@@ -235,12 +235,33 @@ export function showContextMenu(x, y, items) {
         } else {
             const el = document.createElement('div');
             el.className = 'context-menu-item';
-            el.innerHTML = `<span>${item.label}</span>`;
-            el.addEventListener('click', (e) => {
-                e.stopPropagation();
-                closeContextMenu();
-                if (typeof item.action === 'function') item.action();
-            });
+            
+            if (item.submenu) {
+                el.innerHTML = `<span>${item.label}</span><span class="submenu-arrow">►</span>`;
+                let activeSubmenu = null;
+                el.addEventListener('mouseenter', () => {
+                    if (activeSubmenu) activeSubmenu.remove();
+                    const rect = el.getBoundingClientRect();
+                    activeSubmenu = createSubmenu(rect.right - 4, rect.top, item.submenu);
+                });
+                el.addEventListener('mouseleave', (e) => {
+                    if (activeSubmenu && !activeSubmenu.contains(e.relatedTarget)) {
+                        setTimeout(() => {
+                            if (activeSubmenu && !activeSubmenu.matches(':hover')) {
+                                activeSubmenu.remove();
+                                activeSubmenu = null;
+                            }
+                        }, 100);
+                    }
+                });
+            } else {
+                el.innerHTML = `<span>${item.label}</span>`;
+                el.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    closeContextMenu();
+                    if (typeof item.action === 'function') item.action();
+                });
+            }
             menu.appendChild(el);
         }
     });
@@ -248,7 +269,7 @@ export function showContextMenu(x, y, items) {
     document.body.appendChild(menu);
 
     const removeHandler = (e) => {
-        if (!menu.contains(e.target)) {
+        if (!e.target.closest('.retro-context-menu')) {
             closeContextMenu();
             document.removeEventListener('click', removeHandler);
             document.removeEventListener('contextmenu', removeHandler);
@@ -261,40 +282,72 @@ export function showContextMenu(x, y, items) {
     }, 50);
 }
 
+function createSubmenu(x, y, items) {
+    const sub = document.createElement('div');
+    sub.className = 'retro-context-menu';
+    sub.style.left = `${Math.min(window.innerWidth - 180, x)}px`;
+    sub.style.top = `${Math.min(window.innerHeight - 180, y)}px`;
+
+    items.forEach(item => {
+        const el = document.createElement('div');
+        el.className = 'context-menu-item';
+        el.innerHTML = `<span>${item.label}</span>`;
+        el.addEventListener('click', (e) => {
+            e.stopPropagation();
+            closeContextMenu();
+            if (typeof item.action === 'function') item.action();
+        });
+        sub.appendChild(el);
+    });
+
+    document.body.appendChild(sub);
+    return sub;
+}
+
 export function closeContextMenu() {
     document.querySelectorAll('.retro-context-menu').forEach(m => m.remove());
 }
 
-// Live Clock
-function startClock() {
-    const clockEl = document.getElementById('live-clock');
-    const update = () => {
-        if (clockEl) {
-            const now = new Date();
-            clockEl.textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+// Icon View Sizing Helper
+function setDesktopIconSize(size) {
+    const icons = document.querySelectorAll('.desktop-icon');
+    icons.forEach(icon => {
+        const svg = icon.querySelector('.sys-icon');
+        if (size === 'large') {
+            icon.style.width = '96px';
+            if (svg) { svg.style.width = '56px'; svg.style.height = '56px'; }
+        } else if (size === 'small') {
+            icon.style.width = '64px';
+            if (svg) { svg.style.width = '32px'; svg.style.height = '32px'; }
+        } else {
+            icon.style.width = '80px';
+            if (svg) { svg.style.width = '44px'; svg.style.height = '44px'; }
         }
-    };
-    update();
-    setInterval(update, 1000);
+    });
 }
 
-// Start Menu Toggle
-function setupStartMenu() {
-    const startBtn = document.getElementById('start-button');
-    const startMenu = document.getElementById('start-menu');
+// Icon Sorting Helper
+function sortDesktopIcons(by) {
+    const container = document.getElementById('desktop-icons-zone');
+    if (!container) return;
+    const icons = Array.from(container.querySelectorAll('.desktop-icon'));
+    icons.sort((a, b) => {
+        const nameA = a.querySelector('.desktop-icon-label')?.textContent.trim() || '';
+        const nameB = b.querySelector('.desktop-icon-label')?.textContent.trim() || '';
+        if (by === 'name') return nameA.localeCompare(nameB);
+        return a.id.localeCompare(b.id);
+    });
+    icons.forEach(icon => container.appendChild(icon));
+}
 
-    if (startBtn && startMenu) {
-        startBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            playSystemSound('click');
-            startMenu.classList.toggle('hidden-view');
-        });
-
-        document.addEventListener('click', (e) => {
-            if (!startMenu.contains(e.target) && !startBtn.contains(e.target)) {
-                startMenu.classList.add('hidden-view');
-            }
-        });
+// Refresh Desktop Helper
+function refreshDesktop() {
+    playSystemSound('click');
+    document.querySelectorAll('.desktop-icon').forEach(i => i.classList.remove('selected'));
+    const container = document.getElementById('desktop-icons-zone');
+    if (container) {
+        container.style.opacity = '0.5';
+        setTimeout(() => { container.style.opacity = '1'; }, 100);
     }
 }
 
@@ -308,12 +361,23 @@ function setupContextMenuListeners() {
             if (e.target.closest('.window-frame') || e.target.closest('#start-menu')) return;
             e.preventDefault();
             showContextMenu(e.clientX, e.clientY, [
-                { label: 'Refresh Desktop', action: () => location.reload() },
+                {
+                    label: 'View',
+                    submenu: [
+                        { label: 'Large Icons', action: () => setDesktopIconSize('large') },
+                        { label: 'Medium Icons', action: () => setDesktopIconSize('medium') },
+                        { label: 'Small Icons', action: () => setDesktopIconSize('small') }
+                    ]
+                },
+                {
+                    label: 'Sort By',
+                    submenu: [
+                        { label: 'Name', action: () => sortDesktopIcons('name') },
+                        { label: 'Item Type', action: () => sortDesktopIcons('type') }
+                    ]
+                },
                 { type: 'separator' },
-                { label: 'New Text File', action: () => alert('New file created on Desktop.') },
-                { label: 'New Folder', action: () => alert('New folder created on Desktop.') },
-                { type: 'separator' },
-                { label: 'Personalize & Display', action: () => alert('Zeb OS 3 Display Properties') }
+                { label: 'Refresh', action: () => refreshDesktop() }
             ]);
         });
     }
@@ -322,13 +386,10 @@ function setupContextMenuListeners() {
         taskbar.addEventListener('contextmenu', (e) => {
             e.preventDefault();
             showContextMenu(e.clientX, e.clientY, [
-                { label: 'Cascade Windows', action: () => {} },
                 { label: 'Show Desktop', action: () => {
                     activeWindows.forEach(w => w.element.style.display = 'none');
                     updateTaskbar();
-                }},
-                { type: 'separator' },
-                { label: 'Task Manager', action: () => alert('Launch Task Manager') }
+                }}
             ]);
         });
     }

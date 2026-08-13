@@ -83,7 +83,6 @@
 .win-btn.close-btn:hover {
     background: linear-gradient(180deg, #ef4444 0%, #dc2626 100%);
     border-color: #f87171;
-    box-shadow: 0 0 8px rgba(239, 68, 68, 0.6);
 }
 
 .win-btn .sys-icon {

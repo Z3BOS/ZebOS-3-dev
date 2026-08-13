@@ -15,16 +15,16 @@ export class EditorApp extends BaseApp {
         this.currentContent = initialContent;
 
         this.render(`
-            <div style="display:flex; flex-direction:column; height:100%; background:#ffffff; font-family:'Segoe UI', sans-serif;">
+            <div style="display:flex; flex-direction:column; height:100%; background:#0f172a; color:#ffffff; font-family:'Segoe UI', sans-serif;">
                 <!-- Toolbar -->
-                <div style="background:linear-gradient(180deg, #f8fafc 0%, #e2e8f0 100%); border-bottom:1px solid #cbd5e1; padding:6px 10px; display:flex; align-items:center; gap:8px;">
+                <div style="background:linear-gradient(180deg, rgba(30, 41, 59, 0.95) 0%, rgba(15, 23, 42, 0.95) 100%); border-bottom:1px solid rgba(255, 255, 255, 0.15); padding:6px 10px; display:flex; align-items:center; gap:8px;">
                     <button class="aero-btn save-btn">${getIcon('save')} Save</button>
                     <button class="aero-btn new-btn">New</button>
-                    <div style="font-size:11px; color:#64748b; margin-left:auto;" class="editor-status">Lines: 1 | Chars: 0</div>
+                    <div style="font-size:11px; color:#94a3b8; margin-left:auto;" class="editor-status">Lines: 1 | Chars: 0</div>
                 </div>
 
                 <!-- Textarea Area -->
-                <textarea class="editor-textarea" style="flex-grow:1; width:100%; border:none; outline:none; padding:12px; font-family:'Consolas', monospace; font-size:13px; line-height:1.6; resize:none;">${initialContent}</textarea>
+                <textarea class="editor-textarea" style="flex-grow:1; width:100%; border:none; outline:none; padding:12px; background:#0f172a; color:#f8fafc; font-family:'Consolas', monospace; font-size:13px; line-height:1.6; resize:none; caret-color:#60a5fa;">${initialContent}</textarea>
             </div>
         `);
 

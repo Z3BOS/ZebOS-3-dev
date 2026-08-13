@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zeb OS 3 Pre-Alpha 0.0.1</title>
+    <link rel="stylesheet" href="UIKit3/index.css">
+</head>
+<body class="desktop-wallpaper">
+
+    <!-- Aero Glass Boot Screen -->
+    <div id="boot-screen">
+        <div class="boot-aurora-bg"></div>
+        <div class="boot-screen-content">
+            <div class="boot-logo-orb">
+                <svg width="40" height="40" viewBox="0 0 32 32" fill="none">
+                    <path d="M9 16L14 21L23 11" stroke="#ffffff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+            <div class="boot-title">Zeb<span style="color:#00e5ff; font-weight:600;">OS</span> 3</div>
+            <div class="boot-version">Pre-Alpha 0.0.1 (Aero Glass Core)</div>
+            <div id="boot-log-console"></div>
+            <div id="boot-progress-track">
+                <div id="boot-progress-bar"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Desktop Workspace Canvas -->
+    <div id="desktop-canvas">
+
+        <!-- Desktop Shortcuts Zone -->
+        <div id="desktop-icons-zone">
+            <div class="desktop-icon" id="icon-explorer">
+                <svg class="sys-icon" viewBox="0 0 24 24" fill="none"><path d="M3 6C3 4.89543 3.89543 4 5 4H10L12 6H19C20.1046 6 21 6.89543 21 8V18C21 19.1046 20.1046 20 19 20H5C3.89543 20 3 19.1046 3 18V6Z" fill="#ffca28" stroke="#f57f17" stroke-width="1.5"/><path d="M3 9H21V18C21 19.1046 20.1046 20 19 20H5C3.89543 20 3 19.1046 3 18V9Z" fill="#ffe082"/></svg>
+                <div class="desktop-icon-label">Zeb Explorer</div>
+            </div>
+
+            <div class="desktop-icon" id="icon-camera">
+                <svg class="sys-icon" viewBox="0 0 24 24" fill="none"><path d="M4 8C4 6.89543 4.89543 6 6 6H8.2L9.6 4H14.4L15.8 6H18C19.1046 6 20 6.89543 20 8V18C20 19.1046 19.1046 20 18 20H6C4.89543 20 4 19.1046 4 18V8Z" fill="#334155" stroke="#0078d7" stroke-width="1.5"/><circle cx="12" cy="13" r="4" fill="#00e5ff" stroke="#ffffff" stroke-width="1.5"/></svg>
+                <div class="desktop-icon-label">Aero Camera</div>
+            </div>
+
+            <div class="desktop-icon" id="icon-editor">
+                <svg class="sys-icon" viewBox="0 0 24 24" fill="none"><rect x="4" y="3" width="16" height="18" rx="2" fill="#ffffff" stroke="#0078d7" stroke-width="1.5"/><path d="M8 7H16M8 11H16M8 15H12" stroke="#0078d7" stroke-width="1.5" stroke-linecap="round"/></svg>
+                <div class="desktop-icon-label">Text Editor</div>
+            </div>
+
+            <div class="desktop-icon" id="icon-terminal">
+                <svg class="sys-icon" viewBox="0 0 24 24" fill="none"><rect x="2" y="4" width="20" height="16" rx="2" fill="#1e293b" stroke="#475569" stroke-width="1.5"/><path d="M6 9L10 12L6 15" stroke="#00e5ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 15H17" stroke="#00e5ff" stroke-width="2" stroke-linecap="round"/></svg>
+                <div class="desktop-icon-label">Zeb Terminal</div>
+            </div>
+        </div>
+
+        <!-- Sidebar Desktop Gadgets -->
+        <div id="desktop-gadgets-sidebar">
+            <div class="aero-gadget">
+                <div class="gadget-title">Clock</div>
+                <div class="gadget-clock-time" id="gadget-clock">12:00 PM</div>
+            </div>
+
+            <div class="aero-gadget">
+                <div class="gadget-title">CPU & RAM Meter</div>
+                <div class="gadget-meter-row"><span>CPU Usage</span><span>14%</span></div>
+                <div class="gadget-meter-track"><div class="gadget-meter-fill" style="width:14%;"></div></div>
+                <div class="gadget-meter-row" style="margin-top:6px;"><span>Memory</span><span>1.8 / 8.0 GB</span></div>
+                <div class="gadget-meter-track"><div class="gadget-meter-fill" style="width:22.5%;"></div></div>
+            </div>
+        </div>
+
+        <!-- Floating Windows Layer -->
+        <div id="window-workspace"></div>
+
+        <!-- Dual-Pane Start Menu -->
+        <div id="start-menu" class="hidden-view">
+            <div id="start-menu-header">
+                <div style="width:36px; height:36px; border-radius:50%; background:#0078d7; border:2px solid #ffffff; display:flex; align-items:center; justify-content:center; font-weight:bold; color:#fff;">G</div>
+                <div>
+                    <div class="start-user-name">Guest User</div>
+                    <div style="font-size:10px; color:#00e5ff;">Zeb OS 3 Pre-Alpha 0.0.1</div>
+                </div>
+            </div>
+
+            <div id="start-menu-panes">
+                <div id="start-left-pane">
+                    <div class="start-item" id="menu-launch-explorer">Zeb Explorer</div>
+                    <div class="start-item" id="menu-launch-camera">Aero Camera</div>
+                    <div class="start-item" id="menu-launch-editor">Text Editor</div>
+                    <div class="start-item" id="menu-launch-terminal">Zeb Terminal</div>
+                </div>
+
+                <div id="start-right-pane">
+                    <div class="start-sys-item" id="menu-link-documents">Documents</div>
+                    <div class="start-sys-item" id="menu-link-pictures">Pictures</div>
+                    <div class="start-sys-item" id="menu-link-computer">Computer</div>
+                    <div class="start-sys-item" id="menu-link-control">Control Panel</div>
+                </div>
+            </div>
+
+            <div id="start-menu-footer">
+                <input type="text" class="start-search-input" placeholder="Start Search">
+                <button class="start-power-btn">Shut Down</button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Aero Glass Taskbar -->
+    <div id="system-taskbar">
+        <div id="start-button" title="Start Zeb OS 3">
+            <svg width="22" height="22" viewBox="0 0 32 32" fill="none">
+                <path d="M9 16L14 21L23 11" stroke="#ffffff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
+
+        <div id="taskbar-tabs-zone"></div>
+
+        <div id="system-tray">
+            <span id="live-clock">12:00 PM</span>
+        </div>
+    </div>
+
+    <script type="module">
+        import { createWindow } from './os3.js';
+        import { CameraApp } from './programs/camera.js';
+        import { ExplorerApp } from './programs/explorer.js';
+
+        // Bind Icon Launchers
+        document.getElementById('icon-camera').addEventListener('click', () => {
+            const body = createWindow('Aero Camera', 'camera', 'app-camera');
+            if (body) new CameraApp(() => {}).open(body);
+        });
+
+        document.getElementById('icon-explorer').addEventListener('click', () => {
+            const body = createWindow('Zeb Explorer', 'explorer', 'app-explorer');
+            if (body) new ExplorerApp(() => {}).open(body);
+        });
+
+        document.getElementById('menu-launch-camera').addEventListener('click', () => {
+            const body = createWindow('Aero Camera', 'camera', 'app-camera');
+            if (body) new CameraApp(() => {}).open(body);
+            document.getElementById('start-menu').classList.add('hidden-view');
+        });
+
+        document.getElementById('menu-launch-explorer').addEventListener('click', () => {
+            const body = createWindow('Zeb Explorer', 'explorer', 'app-explorer');
+            if (body) new ExplorerApp(() => {}).open(body);
+            document.getElementById('start-menu').classList.add('hidden-view');
+        });
+    </script>
+</body>
+</html>

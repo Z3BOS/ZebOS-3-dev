@@ -1,0 +1,108 @@
+/* Aero Glass Window Shell */
+
+.window-frame {
+    position: absolute;
+    background: var(--aero-glass-bg);
+    backdrop-filter: var(--aero-glass-blur);
+    -webkit-backdrop-filter: var(--aero-glass-blur);
+    border: 1px solid var(--aero-glass-border);
+    border-radius: 8px 8px 4px 4px;
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.6), inset 0 1px 1px rgba(255, 255, 255, 0.6);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    z-index: 100;
+    transition: box-shadow 0.2s ease, transform 0.15s ease-out;
+}
+
+.window-frame.active-window {
+    border-color: rgba(255, 255, 255, 0.55);
+    box-shadow: 0 20px 60px rgba(0, 120, 215, 0.35), 0 12px 40px rgba(0, 0, 0, 0.7), inset 0 1px 2px rgba(255, 255, 255, 0.8);
+}
+
+.window-header {
+    height: 32px;
+    background: var(--aero-header-active);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 8px 0 10px;
+    cursor: move;
+    user-select: none;
+}
+
+.window-frame:not(.active-window) .window-header {
+    background: var(--aero-header-inactive);
+}
+
+.window-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #ffffff;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.window-title .sys-icon {
+    width: 18px;
+    height: 18px;
+    filter: drop-shadow(0 1px 2px rgba(0,0,0,0.5));
+}
+
+.window-controls {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+
+.win-btn {
+    width: 28px;
+    height: 20px;
+    border-radius: 3px;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.25) 0%, rgba(200, 200, 200, 0.05) 100%);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.win-btn:hover {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.45) 0%, rgba(255, 255, 255, 0.15) 100%);
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
+}
+
+.win-btn.close-btn:hover {
+    background: linear-gradient(180deg, #ff5252 0%, #c62828 100%);
+    border-color: #ff8a80;
+    box-shadow: 0 0 10px rgba(255, 82, 82, 0.6);
+}
+
+.window-body {
+    flex-grow: 1;
+    background: var(--win-body-bg);
+    overflow: auto;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Modal Overlay */
+.os-modal-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    background: transparent !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100010;
+}

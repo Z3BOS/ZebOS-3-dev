@@ -1,0 +1,161 @@
+/* Dual-Pane Aero Glass Start Menu */
+
+#start-menu {
+    position: fixed;
+    bottom: 46px;
+    left: 8px;
+    width: 380px;
+    height: 520px;
+    background: rgba(15, 23, 42, 0.85);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 10px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), 0 0 30px rgba(0, 120, 215, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.6);
+    display: flex;
+    flex-direction: column;
+    z-index: 99995;
+    overflow: hidden;
+    color: #ffffff;
+    user-select: none;
+    animation: startIn 0.2s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+@keyframes startIn {
+    from { opacity: 0; transform: translateY(16px) scale(0.96); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* User Profile Header Strip */
+#start-menu-header {
+    height: 54px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.15) 0%, rgba(0, 0, 0, 0.3) 100%);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    display: flex;
+    align-items: center;
+    padding: 0 14px;
+    gap: 12px;
+}
+
+.start-user-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 2px solid #ffffff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+    object-fit: cover;
+    background: #0078d7;
+}
+
+.start-user-name {
+    font-size: 14px;
+    font-weight: 600;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+}
+
+/* Dual-Pane Layout Container */
+#start-menu-panes {
+    flex-grow: 1;
+    display: flex;
+    overflow: hidden;
+}
+
+/* Left Pane: Pinned & All Programs */
+#start-left-pane {
+    width: 220px;
+    background: rgba(255, 255, 255, 0.95);
+    color: #1a1a1a;
+    display: flex;
+    flex-direction: column;
+    padding: 8px 6px;
+    gap: 4px;
+    overflow-y: auto;
+}
+
+.start-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.12s ease, transform 0.1s ease;
+}
+
+.start-item:hover {
+    background: linear-gradient(180deg, rgba(0, 120, 215, 0.15) 0%, rgba(0, 120, 215, 0.3) 100%);
+    color: #0078d7;
+    font-weight: 600;
+}
+
+.start-item .sys-icon {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+}
+
+/* Right Pane: System Shortcuts */
+#start-right-pane {
+    flex-grow: 1;
+    background: rgba(15, 23, 42, 0.4);
+    display: flex;
+    flex-direction: column;
+    padding: 8px 6px;
+    gap: 2px;
+    border-left: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.start-sys-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+    color: #e2e8f0;
+    cursor: pointer;
+    transition: background 0.12s ease;
+}
+
+.start-sys-item:hover {
+    background: rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+}
+
+/* Bottom Search & Power Bar */
+#start-menu-footer {
+    height: 48px;
+    background: rgba(0, 0, 0, 0.4);
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 10px;
+    gap: 8px;
+}
+
+.start-search-input {
+    flex-grow: 1;
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 4px;
+    padding: 4px 8px;
+    font-size: 11px;
+    outline: none;
+    color: #000000;
+}
+
+.start-power-btn {
+    padding: 4px 12px;
+    background: linear-gradient(180deg, #d32f2f 0%, #9a0007 100%);
+    border: 1px solid #ff6666;
+    border-radius: 4px;
+    color: #ffffff;
+    font-size: 11px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(211, 47, 47, 0.5);
+}

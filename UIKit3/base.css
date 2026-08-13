@@ -1,0 +1,72 @@
+/* Zeb OS 3 Pre-Alpha 0.0.1 - Core Design System & Aero Glass Base */
+@import url('https://fonts.googleapis.com/css2?family=Segoe+UI:wght@300;400;600;700&display=swap');
+
+:root {
+    /* Aero Glass Color Palette */
+    --aero-glass-bg: rgba(20, 30, 48, 0.65);
+    --aero-glass-border: rgba(255, 255, 255, 0.35);
+    --aero-glass-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+    --aero-glass-blur: blur(16px);
+    
+    --aero-header-active: linear-gradient(180deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.1) 45%, rgba(0, 0, 0, 0.25) 50%, rgba(0, 40, 80, 0.55) 100%);
+    --aero-header-inactive: linear-gradient(180deg, rgba(255, 255, 255, 0.2) 0%, rgba(200, 200, 200, 0.1) 100%);
+    
+    --aero-accent-blue: #0078d7;
+    --aero-accent-glow: rgba(0, 229, 255, 0.6);
+    --aero-taskbar-bg: rgba(10, 14, 23, 0.75);
+    
+    --win-body-bg: #f0f3f7;
+    --text-primary: #1a1a1a;
+    --text-muted: #555555;
+    
+    /* Font */
+    --main-font: 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    font-family: var(--main-font);
+    background-color: #0b192c;
+    color: var(--text-primary);
+    user-select: none;
+    -webkit-font-smoothing: antialiased;
+}
+
+.desktop-wallpaper {
+    background: radial-gradient(circle at 50% 30%, #1e3c72 0%, #2a5298 40%, #0f2027 100%);
+    background-size: cover;
+    background-position: center;
+}
+
+/* Base Utility Classes */
+.hidden-view {
+    display: none !important;
+}
+
+/* Custom Scrollbar for Aero Glass */
+::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+}
+::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
+}
+::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border: 2px solid transparent;
+    border-radius: 6px;
+    background-clip: padding-box;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.5);
+    border: 2px solid transparent;
+    background-clip: padding-box;
+}

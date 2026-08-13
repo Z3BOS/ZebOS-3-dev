@@ -1,4 +1,4 @@
-// BaseApp class for Zeb OS 3 Pre-Alpha 0.0.1
+// BaseApp class for Zeb OS 3 Pre-Alpha 0.0.2
 export class BaseApp {
     constructor(onCloseRequest) {
         this.onCloseRequest = onCloseRequest;

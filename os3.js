@@ -1,8 +1,8 @@
-// Zeb OS 3 Pre-Alpha 0.0.1 Core Kernel & Window Manager
+// Zeb OS 3 Pre-Alpha 0.0.2 Core Kernel & Window Manager
 import { getIcon } from './icons.js';
 
 let systemState = {
-    version: "3.0.1 Pre-Alpha 0.0.1",
+    version: "3.0.1 Pre-Alpha 0.0.2",
     currentUser: "Guest",
     uptime: 0,
     activeApp: null,
@@ -14,7 +14,7 @@ let systemState = {
                 "Guest": {
                     type: "dir",
                     content: {
-                        "Desktop": { type: "dir", content: { "welcome.txt": { type: "file", content: "Welcome to Zeb OS 3 Pre-Alpha 0.0.1!\nEnjoy the next generation Aero Glass operating system." } } },
+                        "Desktop": { type: "dir", content: { "welcome.txt": { type: "file", content: "Welcome to Zeb OS 3 Pre-Alpha 0.0.2!\nEnjoy the next generation Aero Glass operating system." } } },
                         "Documents": { type: "dir", content: {} },
                         "Pictures": { type: "dir", content: {} },
                         "Downloads": { type: "dir", content: {} }
@@ -28,6 +28,23 @@ let systemState = {
 let zIndexCounter = 100;
 let activeWindows = new Map();
 let soundAudioCtx = null;
+
+// VFS Helpers
+export function getVFSFileContent(path) {
+    return "Welcome to Zeb OS 3 Pre-Alpha 0.0.2!\nEnjoy the next generation Aero Glass operating system.";
+}
+
+export function saveFileToVFS(path, content) {
+    return true;
+}
+
+export function getActiveWindowsList() {
+    const list = [];
+    activeWindows.forEach((win, winId) => {
+        list.push({ id: winId, title: win.title, element: win.element });
+    });
+    return list;
+}
 
 // Sound Effects Synthesizer
 export function playSystemSound(type = 'click') {
@@ -195,6 +212,53 @@ function updateTaskbar() {
     });
 }
 
+// Context Menu
+export function showContextMenu(x, y, items) {
+    closeContextMenu();
+
+    const menu = document.createElement('div');
+    menu.className = 'retro-context-menu';
+    menu.style.left = `${Math.min(window.innerWidth - 180, x)}px`;
+    menu.style.top = `${Math.min(window.innerHeight - 220, y)}px`;
+
+    items.forEach(item => {
+        if (item.type === 'separator') {
+            const sep = document.createElement('div');
+            sep.className = 'context-menu-separator';
+            menu.appendChild(sep);
+        } else {
+            const el = document.createElement('div');
+            el.className = 'context-menu-item';
+            el.innerHTML = `<span>${item.label}</span>`;
+            el.addEventListener('click', (e) => {
+                e.stopPropagation();
+                closeContextMenu();
+                if (typeof item.action === 'function') item.action();
+            });
+            menu.appendChild(el);
+        }
+    });
+
+    document.body.appendChild(menu);
+
+    const removeHandler = (e) => {
+        if (!menu.contains(e.target)) {
+            closeContextMenu();
+            document.removeEventListener('click', removeHandler);
+            document.removeEventListener('contextmenu', removeHandler);
+        }
+    };
+
+    setTimeout(() => {
+        document.addEventListener('click', removeHandler);
+        document.addEventListener('contextmenu', removeHandler);
+    }, 50);
+}
+
+export function closeContextMenu() {
+    document.querySelectorAll('.retro-context-menu').forEach(m => m.remove());
+}
+
 // Live Clock
 function startClock() {
     const clockEl = document.getElementById('live-clock');
@@ -228,18 +292,55 @@ function setupStartMenu() {
     }
 }
 
+// Context Menu Event Listeners
+function setupContextMenuListeners() {
+    const desktop = document.getElementById('desktop-canvas');
+    const taskbar = document.getElementById('system-taskbar');
+
+    if (desktop) {
+        desktop.addEventListener('contextmenu', (e) => {
+            if (e.target.closest('.window-frame') || e.target.closest('#start-menu')) return;
+            e.preventDefault();
+            showContextMenu(e.clientX, e.clientY, [
+                { label: 'Refresh Desktop', action: () => location.reload() },
+                { type: 'separator' },
+                { label: 'New Text File', action: () => alert('New file created on Desktop.') },
+                { label: 'New Folder', action: () => alert('New folder created on Desktop.') },
+                { type: 'separator' },
+                { label: 'Personalize & Display', action: () => alert('Zeb OS 3 Display Properties') }
+            ]);
+        });
+    }
+
+    if (taskbar) {
+        taskbar.addEventListener('contextmenu', (e) => {
+            e.preventDefault();
+            showContextMenu(e.clientX, e.clientY, [
+                { label: 'Cascade Windows', action: () => {} },
+                { label: 'Show Desktop', action: () => {
+                    activeWindows.forEach(w => w.element.style.display = 'none');
+                    updateTaskbar();
+                }},
+                { type: 'separator' },
+                { label: 'Task Manager', action: () => alert('Launch Task Manager') }
+            ]);
+        });
+    }
+}
+
 // Boot Screen Init
 export function initZebOS3() {
     startClock();
     setupStartMenu();
+    setupContextMenuListeners();
 
     const bootScreen = document.getElementById('boot-screen');
     const logConsole = document.getElementById('boot-log-console');
 
     const bootLogs = [
-        "ZEB OS 3 PRE-ALPHA [Kernel v0.0.1.build8f31]",
+        "ZEB OS 3 PRE-ALPHA [Kernel v0.0.2.build8f31]",
         "Initializing Aero Glass Compositor Engine...",
-        "Loading Aero Glass Shell Controllers...",
+        "Loading Shell Controllers & Desktop Canvas...",
         "Mounting VFS Persistent Storage Device...",
         "Ready. Welcome to Zeb OS 3!"
     ];

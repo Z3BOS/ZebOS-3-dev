@@ -1,15 +1,29 @@
-// Vector SVG Icons for Zeb OS 3 Pre-Alpha 0.0.1
+// Vector SVG Icons for Zeb OS 3 Pre-Alpha 0.0.2
 
 const SVGS = {
     orbLogo: `
         <svg class="sys-icon" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="16" cy="16" r="14" fill="url(#orbGrad)" stroke="#ffffff" stroke-width="1.5"/>
-            <path d="M9 16L14 21L23 11" stroke="#ffffff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="16" cy="16" r="14" fill="url(#orbGrad3)" stroke="#ffffff" stroke-width="1.5"/>
+            <path d="M10 10H22L12 22H22" stroke="#ffffff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
             <defs>
-                <linearGradient id="orbGrad" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
-                    <stop stop-color="#00e5ff"/>
+                <linearGradient id="orbGrad3" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+                    <stop stop-color="#60a5fa"/>
                     <stop offset="0.5" stop-color="#0078d7"/>
-                    <stop offset="1" stop-color="#002b66"/>
+                    <stop offset="1" stop-color="#051c38"/>
+                </linearGradient>
+            </defs>
+        </svg>
+    `,
+    zeb3Logo: `
+        <svg class="sys-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="4" y="4" width="40" height="40" rx="10" fill="url(#z3Grad)" stroke="#ffffff" stroke-width="2"/>
+            <path d="M14 15H34L18 33H34" stroke="#ffffff" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M14 15H34L18 33H34" stroke="#60a5fa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <defs>
+                <linearGradient id="z3Grad" x1="4" y1="4" x2="44" y2="44" gradientUnits="userSpaceOnUse">
+                    <stop stop-color="#60a5fa"/>
+                    <stop offset="0.6" stop-color="#0078d7"/>
+                    <stop offset="1" stop-color="#031024"/>
                 </linearGradient>
             </defs>
         </svg>
@@ -29,8 +43,8 @@ const SVGS = {
     terminal: `
         <svg class="sys-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect x="2" y="4" width="20" height="16" rx="2" fill="#1e293b" stroke="#475569" stroke-width="1.5"/>
-            <path d="M6 9L10 12L6 15" stroke="#00e5ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M12 15H17" stroke="#00e5ff" stroke-width="2" stroke-linecap="round"/>
+            <path d="M6 9L10 12L6 15" stroke="#60a5fa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M12 15H17" stroke="#60a5fa" stroke-width="2" stroke-linecap="round"/>
         </svg>
     `,
     paint: `
@@ -59,14 +73,8 @@ const SVGS = {
     `,
     media: `
         <svg class="sys-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="2" y="4" width="20" height="16" rx="3" fill="#0f172a" stroke="#00e5ff" stroke-width="1.5"/>
-            <path d="M10 8L16 12L10 16V8Z" fill="#00e5ff"/>
-        </svg>
-    `,
-    camera: `
-        <svg class="sys-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M4 8C4 6.89543 4.89543 6 6 6H8.2L9.6 4H14.4L15.8 6H18C19.1046 6 20 6.89543 20 8V18C20 19.1046 19.1046 20 18 20H6C4.89543 20 4 19.1046 4 18V8Z" fill="#334155" stroke="#0078d7" stroke-width="1.5"/>
-            <circle cx="12" cy="13" r="4" fill="#00e5ff" stroke="#ffffff" stroke-width="1.5"/>
+            <rect x="2" y="4" width="20" height="16" rx="3" fill="#0f172a" stroke="#60a5fa" stroke-width="1.5"/>
+            <path d="M10 8L16 12L10 16V8Z" fill="#60a5fa"/>
         </svg>
     `,
     taskmgr: `
@@ -106,7 +114,7 @@ const SVGS = {
     grid: `
         <svg class="sys-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect x="3" y="3" width="18" height="18" fill="none" stroke="#0078d7" stroke-width="1.5"/>
-            <path d="M9 3V21M15 3V21M3 9H21M3 15H21" stroke="#00e5ff" stroke-width="1.2"/>
+            <path d="M9 3V21M15 3V21M3 9H21M3 15H21" stroke="#60a5fa" stroke-width="1.2"/>
         </svg>
     `,
     picture: `

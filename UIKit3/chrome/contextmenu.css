@@ -2,10 +2,10 @@
 
 .retro-context-menu {
     position: fixed;
-    background: rgba(15, 23, 42, 0.9);
+    background: rgba(15, 23, 42, 0.92);
     backdrop-filter: blur(24px);
     -webkit-backdrop-filter: blur(24px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.28);
     border-radius: 6px;
     box-shadow: 0 12px 36px rgba(0, 0, 0, 0.75), inset 0 1px 1px rgba(255, 255, 255, 0.2);
     padding: 4px;
@@ -22,7 +22,7 @@
     align-items: center;
     justify-content: space-between;
     gap: 10px;
-    padding: 6px 12px;
+    padding: 6px 10px;
     border-radius: 4px;
     cursor: pointer;
     transition: background 0.12s ease, color 0.12s ease;
@@ -41,8 +41,11 @@
 }
 
 .submenu-arrow {
-    font-size: 10px;
+    width: 14px;
+    height: 14px;
     color: #94a3b8;
+    flex-shrink: 0;
+    transition: color 0.12s ease;
 }
 
 .context-menu-item:hover .submenu-arrow {

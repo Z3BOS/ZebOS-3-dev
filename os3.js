@@ -237,12 +237,12 @@ export function showContextMenu(x, y, items) {
             el.className = 'context-menu-item';
             
             if (item.submenu) {
-                el.innerHTML = `<span>${item.label}</span><span class="submenu-arrow">►</span>`;
+                el.innerHTML = `<span>${item.label}</span>${getIcon('chevronRight', 'submenu-arrow')}`;
                 let activeSubmenu = null;
                 el.addEventListener('mouseenter', () => {
                     if (activeSubmenu) activeSubmenu.remove();
                     const rect = el.getBoundingClientRect();
-                    activeSubmenu = createSubmenu(rect.right - 4, rect.top, item.submenu);
+                    activeSubmenu = createSubmenu(rect.right + 4, rect.top - 4, item.submenu);
                 });
                 el.addEventListener('mouseleave', (e) => {
                     if (activeSubmenu && !activeSubmenu.contains(e.relatedTarget)) {
@@ -352,16 +352,25 @@ function refreshDesktop() {
 }
 
 // Live Clock
+// Live Clock & Date Helper
 function startClock() {
     const clockEl = document.getElementById('live-clock');
+    const dateEl = document.getElementById('live-date');
     const update = () => {
-        if (clockEl) {
-            const now = new Date();
-            clockEl.textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-        }
+        const now = new Date();
+        if (clockEl) clockEl.textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        if (dateEl) dateEl.textContent = now.toLocaleDateString([], { month: 'numeric', day: 'numeric', year: 'numeric' });
     };
     update();
     setInterval(update, 1000);
+
+    const peekBar = document.getElementById('show-desktop-bar');
+    if (peekBar) {
+        peekBar.addEventListener('click', () => {
+            activeWindows.forEach(w => w.element.style.display = 'none');
+            updateTaskbar();
+        });
+    }
 }
 
 // Start Menu Toggle
@@ -428,11 +437,92 @@ function setupContextMenuListeners() {
     }
 }
 
+// Desktop Marquee Drag Selection Box
+function setupDesktopSelectionBox() {
+    const desktop = document.getElementById('desktop-canvas');
+    if (!desktop) return;
+
+    let isDragging = false;
+    let startX = 0, startY = 0;
+    let marqueeBox = null;
+
+    desktop.addEventListener('mousedown', (e) => {
+        // Safety check: Never trigger drag box if click starts on window, start menu, taskbar, or context menu
+        if (e.button !== 0 || e.target.closest('.window-frame') || e.target.closest('#start-menu') || e.target.closest('#system-taskbar') || e.target.closest('.retro-context-menu')) {
+            return;
+        }
+
+        isDragging = true;
+        startX = e.clientX;
+        startY = e.clientY;
+
+        // Create selection box element
+        marqueeBox = document.createElement('div');
+        marqueeBox.className = 'desktop-selection-box';
+        marqueeBox.style.left = `${startX}px`;
+        marqueeBox.style.top = `${startY}px`;
+        marqueeBox.style.width = '0px';
+        marqueeBox.style.height = '0px';
+        document.body.appendChild(marqueeBox);
+
+        // Deselect desktop icons unless Ctrl/Shift key pressed
+        if (!e.ctrlKey && !e.shiftKey) {
+            document.querySelectorAll('.desktop-icon').forEach(icon => icon.classList.remove('selected'));
+        }
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        if (!isDragging || !marqueeBox) return;
+
+        const currentX = e.clientX;
+        const currentY = e.clientY;
+
+        const left = Math.min(startX, currentX);
+        const top = Math.min(startY, currentY);
+        const width = Math.abs(currentX - startX);
+        const height = Math.abs(currentY - startY);
+
+        marqueeBox.style.left = `${left}px`;
+        marqueeBox.style.top = `${top}px`;
+        marqueeBox.style.width = `${width}px`;
+        marqueeBox.style.height = `${height}px`;
+
+        // Intersect check with desktop icons
+        const boxRect = marqueeBox.getBoundingClientRect();
+        document.querySelectorAll('.desktop-icon').forEach(icon => {
+            const iconRect = icon.getBoundingClientRect();
+            const isIntersecting = !(
+                boxRect.right < iconRect.left ||
+                boxRect.left > iconRect.right ||
+                boxRect.bottom < iconRect.top ||
+                boxRect.top > iconRect.bottom
+            );
+
+            if (isIntersecting) {
+                icon.classList.add('selected');
+            } else if (!e.ctrlKey && !e.shiftKey) {
+                icon.classList.remove('selected');
+            }
+        });
+    });
+
+    document.addEventListener('mouseup', () => {
+        if (isDragging) {
+            isDragging = false;
+            if (marqueeBox) {
+                marqueeBox.remove();
+                marqueeBox = null;
+            }
+        }
+    });
+}
+
 // BIOS + Boot Sequence Init
 export function initZebOS3() {
     startClock();
     setupStartMenu();
     setupContextMenuListeners();
+    setupDesktopSelectionBox();
 
     const biosScreen = document.getElementById('bios-screen');
     const bootScreen = document.getElementById('boot-screen');

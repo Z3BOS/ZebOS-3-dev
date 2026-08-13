@@ -1,12 +1,15 @@
-/* Aero Glass Form Controls */
+/* Zeb OS 3 - Aero Glass Form Controls UI Kit */
 
+/* ==========================================================================
+   1. BUTTONS (.aero-btn)
+   ========================================================================== */
 .app-toolbar-btn, .aero-btn {
     padding: 6px 14px;
     font-size: 12px;
     font-weight: 600;
     color: #ffffff;
-    background: linear-gradient(180deg, rgba(51, 65, 85, 0.9) 0%, rgba(30, 41, 59, 0.9) 100%);
-    border: 1px solid rgba(255, 255, 255, 0.25);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.05) 50%, rgba(15, 23, 42, 0.5) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.3);
     border-radius: 4px;
     cursor: pointer;
     display: inline-flex;
@@ -14,28 +17,55 @@
     justify-content: center;
     gap: 6px;
     outline: none;
-    transition: all 0.12s ease;
+    transition: all 0.15s ease;
     user-select: none;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 2px 6px rgba(0, 0, 0, 0.3);
+    font-family: var(--main-font);
 }
 
 .app-toolbar-btn:hover, .aero-btn:hover {
-    background: linear-gradient(180deg, rgba(71, 85, 105, 0.95) 0%, rgba(51, 65, 85, 0.95) 100%);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0.12) 50%, rgba(30, 58, 138, 0.4) 100%);
     border-color: rgba(255, 255, 255, 0.5);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6), 0 0 10px rgba(96, 165, 250, 0.4);
 }
 
 .app-toolbar-btn:active, .aero-btn:active {
-    background: rgba(15, 23, 42, 0.95);
+    background: rgba(15, 23, 42, 0.85);
     box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.6);
 }
 
-.app-toolbar-btn .sys-icon {
-    width: 16px;
-    height: 16px;
+.aero-btn-primary {
+    background: linear-gradient(180deg, rgba(96, 165, 250, 0.8) 0%, rgba(37, 99, 235, 0.9) 100%);
+    border-color: #93c5fd;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6), 0 2px 8px rgba(37, 99, 235, 0.4);
 }
 
-/* Text Inputs */
-.w95-input, .aero-input {
-    background: rgba(15, 23, 42, 0.8);
+.aero-btn-primary:hover {
+    background: linear-gradient(180deg, rgba(147, 197, 253, 0.9) 0%, rgba(29, 78, 216, 0.95) 100%);
+    border-color: #ffffff;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8), 0 0 12px rgba(96, 165, 250, 0.6);
+}
+
+.aero-btn-danger {
+    background: linear-gradient(180deg, #ef4444 0%, #b91c1c 100%);
+    border-color: #f87171;
+}
+
+.aero-btn-sm {
+    padding: 4px 10px;
+    font-size: 11px;
+}
+
+.app-toolbar-btn .sys-icon, .aero-btn .sys-icon {
+    width: 15px;
+    height: 15px;
+}
+
+/* ==========================================================================
+   2. TEXT INPUTS & TEXTAREAS (.aero-input)
+   ========================================================================== */
+.w95-input, .aero-input, .aero-textarea {
+    background: rgba(15, 23, 42, 0.85);
     color: #ffffff;
     border: 1px solid rgba(255, 255, 255, 0.25);
     border-radius: 4px;
@@ -43,16 +73,188 @@
     font-family: var(--main-font);
     font-size: 12px;
     outline: none;
-    transition: border-color 0.15s ease;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.5);
 }
 
-.w95-input:focus, .aero-input:focus {
+.w95-input:focus, .aero-input:focus, .aero-textarea:focus {
     border-color: #60a5fa;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.5), 0 0 8px rgba(96, 165, 250, 0.5);
 }
 
-/* Custom Dropdown Control */
-.w95-dropdown, .aero-dropdown {
+.aero-input::placeholder, .aero-textarea::placeholder {
+    color: #94a3b8;
+}
+
+/* ==========================================================================
+   3. DROPDOWNS / SELECTS (.aero-select - NO EMOJIS, SVG CHEVRON)
+   ========================================================================== */
+.aero-select {
+    appearance: none;
+    -webkit-appearance: none;
+    background-color: rgba(15, 23, 42, 0.88);
+    background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 9L12 15L18 9" stroke="%2360a5fa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 14px 14px;
+    padding: 6px 32px 6px 10px;
+    font-family: var(--main-font);
+    font-size: 12px;
+    font-weight: 500;
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    border-radius: 4px;
+    outline: none;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.aero-select:hover {
+    border-color: #60a5fa;
+    background-color: rgba(30, 41, 59, 0.95);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 0 8px rgba(96, 165, 250, 0.4);
+}
+
+.aero-select:focus {
+    border-color: #93c5fd;
+    box-shadow: 0 0 10px rgba(147, 197, 253, 0.6);
+}
+
+.aero-select option {
+    background: #0f172a;
+    color: #ffffff;
+    padding: 8px;
+}
+
+/* Custom Dropdown Container Wrapper */
+.aero-dropdown-wrapper {
     position: relative;
+    display: inline-block;
+}
+
+/* ==========================================================================
+   4. SLIDERS & RANGE CONTROLS (.aero-range - NO EMOJIS)
+   ========================================================================== */
+input[type="range"].aero-range {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 100%;
+    height: 6px;
+    background: rgba(30, 41, 59, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 3px;
+    outline: none;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.6);
+    margin: 8px 0;
+    cursor: pointer;
+}
+
+input[type="range"].aero-range::-webkit-slider-thumb {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: linear-gradient(180deg, #ffffff 0%, #60a5fa 50%, #1d4ed8 100%);
+    border: 1px solid #ffffff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.6), inset 0 1px 1px rgba(255, 255, 255, 0.9);
+    cursor: pointer;
+    transition: transform 0.1s ease, filter 0.1s ease;
+}
+
+input[type="range"].aero-range::-webkit-slider-thumb:hover {
+    transform: scale(1.15);
+    filter: brightness(1.2);
+    box-shadow: 0 0 10px rgba(96, 165, 250, 0.8), inset 0 1px 1px rgba(255, 255, 255, 1);
+}
+
+/* ==========================================================================
+   5. CHECKBOXES & RADIOS (.aero-checkbox, .aero-radio)
+   ========================================================================== */
+.aero-label-check, .aero-label-radio {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: #ffffff;
+    cursor: pointer;
     user-select: none;
-    font-size: 11px;
+}
+
+input[type="checkbox"].aero-checkbox {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    background: rgba(15, 23, 42, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 3px;
+    outline: none;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.15s ease;
+}
+
+input[type="checkbox"].aero-checkbox:checked {
+    background: #2563eb;
+    border-color: #60a5fa;
+    box-shadow: 0 0 8px rgba(96, 165, 250, 0.5);
+}
+
+input[type="checkbox"].aero-checkbox:checked::after {
+    content: '';
+    position: absolute;
+    top: 2px; left: 5px;
+    width: 4px; height: 8px;
+    border: solid #ffffff;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+input[type="radio"].aero-radio {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    background: rgba(15, 23, 42, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    outline: none;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.15s ease;
+}
+
+input[type="radio"].aero-radio:checked {
+    border-color: #60a5fa;
+    box-shadow: 0 0 8px rgba(96, 165, 250, 0.5);
+}
+
+input[type="radio"].aero-radio:checked::after {
+    content: '';
+    position: absolute;
+    top: 4px; left: 4px;
+    width: 6px; height: 6px;
+    background: #60a5fa;
+    border-radius: 50%;
+}
+
+/* ==========================================================================
+   6. CARDS & PANELS (.aero-card, .aero-panel)
+   ========================================================================== */
+.aero-panel, .aero-card {
+    background: rgba(15, 23, 42, 0.75);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    border-radius: 6px;
+    padding: 12px;
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.2), 0 4px 16px rgba(0, 0, 0, 0.4);
+}
+
+.aero-divider {
+    height: 1px;
+    background: rgba(255, 255, 255, 0.15);
+    margin: 10px 0;
 }

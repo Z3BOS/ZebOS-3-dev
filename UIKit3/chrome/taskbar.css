@@ -1,74 +1,72 @@
-/* Translucent Aero Glass Taskbar & Z Logo Start Button */
+/* Translucent Aero Glass Taskbar & Simple Z Logo Start Button */
 
 #system-taskbar {
     position: fixed;
     bottom: 0; left: 0;
     width: 100vw;
     height: 40px;
-    background: rgba(15, 23, 42, 0.75);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    background: rgba(15, 23, 42, 0.78);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
     border-top: 1px solid rgba(255, 255, 255, 0.25);
     box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.3);
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 8px 0 0;
+    padding: 0 0 0 4px;
     z-index: 99990;
     user-select: none;
 }
 
-/* Authentic Z Logo Start Button */
+/* Simple Z Logo Start Button (No Blue Pill) */
 #start-button {
     height: 34px;
-    width: 48px;
-    border-radius: 0 12px 12px 0;
-    background: linear-gradient(180deg, #60a5fa 0%, #3b82f6 25%, #1d4ed8 70%, #1e3a8a 100%);
-    border: 1px solid #93c5fd;
-    border-left: none;
-    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.8), inset 0 -1px 2px rgba(0, 0, 0, 0.4);
+    width: 40px;
+    border-radius: 6px;
+    background: transparent;
+    border: 1px solid transparent;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    margin-right: 12px;
-    transition: filter 0.12s ease, transform 0.1s ease;
+    margin-right: 8px;
+    transition: all 0.15s ease;
     flex-shrink: 0;
 }
 
 #start-button:hover {
-    filter: brightness(1.15);
-    box-shadow: 0 0 14px rgba(147, 197, 253, 0.9), inset 0 1px 2px rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.18);
+    border-color: rgba(255, 255, 255, 0.3);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5);
 }
 
 #start-button:active {
-    background: linear-gradient(180deg, #1d4ed8 0%, #1e3a8a 100%);
-    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.6);
+    background: rgba(255, 255, 255, 0.28);
 }
 
 #start-button .sys-icon {
     width: 22px;
     height: 22px;
-    filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.7));
+    filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.8));
 }
 
 /* Taskbar Window Tabs Zone */
 #taskbar-tabs-zone {
     display: flex;
     align-items: center;
-    gap: 4px;
+    gap: 6px;
     flex-grow: 1;
     overflow-x: auto;
     height: 100%;
 }
 
 .taskbar-tab {
-    height: 28px;
+    height: 30px;
     min-width: 140px;
-    max-width: 180px;
+    max-width: 190px;
     padding: 0 10px;
-    background: rgba(255, 255, 255, 0.12);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
     border-radius: 4px;
     color: #ffffff;
     font-size: 11px;
@@ -82,14 +80,14 @@
 }
 
 .taskbar-tab:hover {
-    background: rgba(255, 255, 255, 0.25);
-    border-color: rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.35);
 }
 
 .taskbar-tab.active-tab {
-    background: linear-gradient(180deg, rgba(37, 99, 235, 0.7) 0%, rgba(29, 78, 216, 0.9) 100%);
-    border-color: #93c5fd;
-    box-shadow: 0 0 10px rgba(59, 130, 246, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.5);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.08) 50%, rgba(30, 58, 138, 0.5) 100%);
+    border-color: rgba(147, 197, 253, 0.6);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6), 0 2px 8px rgba(0, 0, 0, 0.4);
     font-weight: 600;
 }
 
@@ -108,20 +106,78 @@
 #system-tray {
     display: flex;
     align-items: center;
-    gap: 10px;
-    padding: 2px 10px;
-    background: rgba(0, 0, 0, 0.35);
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    border-radius: 4px;
-    height: 28px;
+    gap: 4px;
+    padding: 0 0 0 8px;
+    height: 100%;
     color: #ffffff;
-    font-size: 11px;
-    font-weight: 500;
+    user-select: none;
     flex-shrink: 0;
 }
 
+.tray-icon-item {
+    width: 22px;
+    height: 22px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #cbd5e1;
+    transition: background 0.12s ease, color 0.12s ease;
+}
+
+.tray-icon-item:hover {
+    background: rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+}
+
+.tray-icon-item .sys-icon {
+    width: 15px;
+    height: 15px;
+}
+
+.tray-clock-zone {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.12s ease;
+    margin-left: 2px;
+}
+
+.tray-clock-zone:hover {
+    background: rgba(255, 255, 255, 0.18);
+}
+
 #live-clock {
-    font-family: var(--main-font);
+    font-size: 11px;
     font-weight: 600;
-    letter-spacing: 0.5px;
+    line-height: 1.1;
+    color: #ffffff;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+#live-date {
+    font-size: 10px;
+    color: #94a3b8;
+    line-height: 1.1;
+}
+
+/* Aero Show Desktop Glass Bar */
+#show-desktop-bar {
+    width: 14px;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.1);
+    border-left: 1px solid rgba(255, 255, 255, 0.25);
+    margin-left: 4px;
+    cursor: pointer;
+    transition: background 0.15s ease;
+}
+
+#show-desktop-bar:hover {
+    background: rgba(255, 255, 255, 0.35);
+    box-shadow: inset 0 0 6px rgba(255, 255, 255, 0.5);
 }

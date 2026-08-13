@@ -1,6 +1,6 @@
 // Zeb OS 3 Text Editor App with Title Options Menu Bar
 import { BaseApp } from '../UIKit3/framework/index.js';
-import { saveFileToVFS, getVFSFileContent, showContextMenu } from '../os3.js';
+import { saveFileToVFS, getVFSFileContent, showContextMenu, showSystemAlert, showSystemPrompt } from '../os3.js';
 
 export class EditorApp extends BaseApp {
     constructor(onCloseRequest, filePath = 'Users/Guest/Documents/untitled.txt') {
@@ -47,17 +47,17 @@ export class EditorApp extends BaseApp {
         textarea.addEventListener('input', updateStatus);
         updateStatus();
 
-        const handleSave = () => {
+        const handleSave = async () => {
             saveFileToVFS(this.filePath, textarea.value);
-            alert(`File saved to ${this.filePath}!`);
+            await showSystemAlert('Text Editor', `File successfully saved to:\n${this.filePath}`, 'check');
         };
 
-        const handleSaveAs = () => {
-            const newPath = prompt('Save As (path):', this.filePath);
+        const handleSaveAs = async () => {
+            const newPath = await showSystemPrompt('Save As', 'Enter target VFS storage path:', this.filePath, 'fileText');
             if (newPath) {
                 this.filePath = newPath;
                 saveFileToVFS(this.filePath, textarea.value);
-                alert(`File saved to ${this.filePath}!`);
+                await showSystemAlert('Text Editor', `File successfully saved to:\n${this.filePath}`, 'check');
             }
         };
 
@@ -94,23 +94,24 @@ export class EditorApp extends BaseApp {
         searchMenu.addEventListener('click', (e) => {
             const rect = searchMenu.getBoundingClientRect();
             showContextMenu(rect.left, rect.bottom, [
-                { label: 'Find...', action: () => {
-                    const query = prompt('Find text:');
+                { label: 'Find...', action: async () => {
+                    const query = await showSystemPrompt('Find Text', 'Enter search query text:', '', 'search');
                     if (query && textarea.value.includes(query)) {
                         const idx = textarea.value.indexOf(query);
                         textarea.focus();
                         textarea.setSelectionRange(idx, idx + query.length);
                     } else if (query) {
-                        alert(`'${query}' not found.`);
+                        await showSystemAlert('Find Text', `'${query}' was not found in the document.`, 'warning');
                     }
                 }},
-                { label: 'Replace...', action: () => {
-                    const query = prompt('Find target text:');
+                { label: 'Replace...', action: async () => {
+                    const query = await showSystemPrompt('Replace Text', 'Find target string:', '', 'search');
                     if (query) {
-                        const replaceWith = prompt(`Replace '${query}' with:`);
+                        const replaceWith = await showSystemPrompt('Replace Text', `Replace '${query}' with:`, '', 'fileText');
                         if (replaceWith !== null) {
                             textarea.value = textarea.value.replaceAll(query, replaceWith);
                             updateStatus();
+                            await showSystemAlert('Replace Text', `All occurrences of '${query}' were replaced.`, 'check');
                         }
                     }
                 }}
@@ -120,7 +121,9 @@ export class EditorApp extends BaseApp {
         helpMenu.addEventListener('click', (e) => {
             const rect = helpMenu.getBoundingClientRect();
             showContextMenu(rect.left, rect.bottom, [
-                { label: 'About Text Editor', action: () => alert('Zeb OS 3 Text Editor v0.0.5\nAero Glass Document Manager.') }
+                { label: 'About Text Editor', action: async () => {
+                    await showSystemAlert('About Text Editor', 'Zeb OS 3 Text Editor v0.0.5\nAero Glass Document Manager.', 'info');
+                }}
             ]);
         });
     }

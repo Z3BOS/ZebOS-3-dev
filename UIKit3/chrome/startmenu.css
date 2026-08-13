@@ -45,7 +45,7 @@
     gap: 8px;
 }
 
-.start-rail-btn {
+.start-rail-btn, .start-rail-avatar {
     width: 36px;
     height: 36px;
     border-radius: 6px;
@@ -56,32 +56,20 @@
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    box-shadow: none;
     transition: all 0.12s ease;
 }
 
-.start-rail-btn:hover {
+.start-rail-btn:hover, .start-rail-avatar:hover {
     background: rgba(255, 255, 255, 0.18);
     border-color: rgba(255, 255, 255, 0.25);
     color: #ffffff;
 }
 
-.start-rail-btn .sys-icon {
-    width: 18px;
-    height: 18px;
-}
-
-.start-rail-avatar {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    border: 2px solid #60a5fa;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
-    background: #1e293b;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 4px;
-    cursor: pointer;
+.start-rail-btn .sys-icon, .start-rail-avatar .sys-icon {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
 }
 
 .power-rail-btn:hover {

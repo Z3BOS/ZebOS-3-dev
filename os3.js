@@ -313,6 +313,163 @@ function createSubmenu(x, y, items) {
     return sub;
 }
 
+// OS Aero Dialog & Prompt Engine (Replaces native browser alert/confirm/prompt)
+export function showSystemAlert(title, message, iconType = 'info') {
+    return new Promise((resolve) => {
+        closeSystemDialog();
+
+        const overlay = document.createElement('div');
+        overlay.id = 'system-dialog-overlay';
+
+        const iconSvg = getIcon(iconType);
+
+        overlay.innerHTML = `
+            <div class="aero-dialog">
+                <div class="aero-dialog-header">
+                    ${getIcon('zLogo')}
+                    <span>${title}</span>
+                </div>
+                <div class="aero-dialog-body">
+                    <div class="aero-dialog-body-content">
+                        ${iconSvg}
+                        <div>${message.replace(/\n/g, '<br>')}</div>
+                    </div>
+                </div>
+                <div class="aero-dialog-footer">
+                    <button class="aero-btn aero-btn-primary dialog-ok-btn" autofocus>OK</button>
+                </div>
+            </div>
+        `;
+
+        document.body.appendChild(overlay);
+
+        const okBtn = overlay.querySelector('.dialog-ok-btn');
+        const handleClose = () => {
+            overlay.remove();
+            resolve();
+        };
+
+        okBtn.addEventListener('click', handleClose);
+        overlay.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === 'Escape') handleClose();
+        });
+    });
+}
+
+export function showSystemConfirm(title, message, options = { okText: 'OK', cancelText: 'Cancel', iconType: 'warning' }) {
+    return new Promise((resolve) => {
+        closeSystemDialog();
+
+        const overlay = document.createElement('div');
+        overlay.id = 'system-dialog-overlay';
+
+        const iconSvg = getIcon(options.iconType || 'warning');
+
+        overlay.innerHTML = `
+            <div class="aero-dialog">
+                <div class="aero-dialog-header">
+                    ${getIcon('zLogo')}
+                    <span>${title}</span>
+                </div>
+                <div class="aero-dialog-body">
+                    <div class="aero-dialog-body-content">
+                        ${iconSvg}
+                        <div>${message.replace(/\n/g, '<br>')}</div>
+                    </div>
+                </div>
+                <div class="aero-dialog-footer">
+                    <button class="aero-btn aero-btn-primary dialog-ok-btn" autofocus>${options.okText || 'OK'}</button>
+                    <button class="aero-btn dialog-cancel-btn">${options.cancelText || 'Cancel'}</button>
+                </div>
+            </div>
+        `;
+
+        document.body.appendChild(overlay);
+
+        const okBtn = overlay.querySelector('.dialog-ok-btn');
+        const cancelBtn = overlay.querySelector('.dialog-cancel-btn');
+
+        const finish = (result) => {
+            overlay.remove();
+            resolve(result);
+        };
+
+        okBtn.addEventListener('click', () => finish(true));
+        cancelBtn.addEventListener('click', () => finish(false));
+        overlay.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') finish(true);
+            if (e.key === 'Escape') finish(false);
+        });
+    });
+}
+
+export function showSystemPrompt(title, message, defaultValue = '', iconType = 'info') {
+    return new Promise((resolve) => {
+        closeSystemDialog();
+
+        const overlay = document.createElement('div');
+        overlay.id = 'system-dialog-overlay';
+
+        const iconSvg = getIcon(iconType);
+
+        overlay.innerHTML = `
+            <div class="aero-dialog">
+                <div class="aero-dialog-header">
+                    ${getIcon('zLogo')}
+                    <span>${title}</span>
+                </div>
+                <div class="aero-dialog-body">
+                    <div class="aero-dialog-body-content">
+                        ${iconSvg}
+                        <div style="flex-grow:1;">
+                            <div style="margin-bottom:8px;">${message.replace(/\n/g, '<br>')}</div>
+                            <input type="text" class="aero-input dialog-prompt-input" value="${defaultValue}" style="width:100%;">
+                        </div>
+                    </div>
+                </div>
+                <div class="aero-dialog-footer">
+                    <button class="aero-btn aero-btn-primary dialog-ok-btn">OK</button>
+                    <button class="aero-btn dialog-cancel-btn">Cancel</button>
+                </div>
+            </div>
+        `;
+
+        document.body.appendChild(overlay);
+
+        const inputEl = overlay.querySelector('.dialog-prompt-input');
+        const okBtn = overlay.querySelector('.dialog-ok-btn');
+        const cancelBtn = overlay.querySelector('.dialog-cancel-btn');
+
+        setTimeout(() => {
+            inputEl.focus();
+            inputEl.select();
+        }, 50);
+
+        const submit = () => {
+            const val = inputEl.value;
+            overlay.remove();
+            resolve(val);
+        };
+
+        const cancel = () => {
+            overlay.remove();
+            resolve(null);
+        };
+
+        okBtn.addEventListener('click', submit);
+        cancelBtn.addEventListener('click', cancel);
+        inputEl.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') submit();
+            if (e.key === 'Escape') cancel();
+        });
+    });
+}
+
+function closeSystemDialog() {
+    const existing = document.getElementById('system-dialog-overlay');
+    if (existing) existing.remove();
+}
+
 // Icon View Sizing Helper
 function setDesktopIconSize(size) {
     const icons = document.querySelectorAll('.desktop-icon');

@@ -1,4 +1,4 @@
-// Vector SVG Icons for Zeb OS 3 Pre-Alpha 0.0.3
+// Vector SVG Icons for Zeb OS 3 Pre-Alpha 0.0.4
 
 const SVGS = {
     zLogo: `

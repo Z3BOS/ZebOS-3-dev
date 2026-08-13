@@ -6,7 +6,7 @@ export class TerminalApp extends BaseApp {
         this.render(`
             <div style="display:flex; flex-direction:column; height:100%; background:#0f172a; color:#60a5fa; font-family:'Consolas', monospace; font-size:12px; padding:12px; overflow:hidden;">
                 <div class="terminal-output" style="flex-grow:1; overflow-y:auto; display:flex; flex-direction:column; gap:4px;">
-                    <div>Zeb OS 3 [Version 0.0.3 Pre-Alpha]</div>
+                    <div>Zeb OS 3 [Version 0.0.4 Pre-Alpha]</div>
                     <div>(c) Zeb Core Systems. All rights reserved.</div>
                     <div style="margin-top:8px;">Type 'help' to view available system commands.</div>
                 </div>
@@ -54,7 +54,7 @@ export class TerminalApp extends BaseApp {
                         output.innerHTML = '';
                         break;
                     case 'ver':
-                        printLine('Zeb OS 3 Pre-Alpha 0.0.3 [Aero Glass Core]');
+                        printLine('Zeb OS 3 Pre-Alpha 0.0.4 [Aero Glass Core]');
                         break;
                     case 'dir':
                         printLine(' Directory of Z:\\Users\\Guest');

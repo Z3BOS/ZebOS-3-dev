@@ -1,8 +1,8 @@
-// Zeb OS 3 Pre-Alpha 0.0.3 Core Kernel & Window Manager
+// Zeb OS 3 Pre-Alpha 0.0.4 Core Kernel & Window Manager
 import { getIcon } from './icons.js';
 
 let systemState = {
-    version: "3.0.1 Pre-Alpha 0.0.3",
+    version: "3.0.1 Pre-Alpha 0.0.4",
     currentUser: "Guest",
     uptime: 0,
     activeApp: null,
@@ -14,7 +14,7 @@ let systemState = {
                 "Guest": {
                     type: "dir",
                     content: {
-                        "Desktop": { type: "dir", content: { "welcome.txt": { type: "file", content: "Welcome to Zeb OS 3 Pre-Alpha 0.0.3!\nEnjoy the next generation Aero Glass operating system." } } },
+                        "Desktop": { type: "dir", content: { "welcome.txt": { type: "file", content: "Welcome to Zeb OS 3 Pre-Alpha 0.0.4!\nEnjoy the next generation Aero Glass operating system." } } },
                         "Documents": { type: "dir", content: {} },
                         "Pictures": { type: "dir", content: {} },
                         "Downloads": { type: "dir", content: {} }
@@ -31,7 +31,7 @@ let soundAudioCtx = null;
 
 // VFS Helpers
 export function getVFSFileContent(path) {
-    return "Welcome to Zeb OS 3 Pre-Alpha 0.0.3!\nEnjoy the next generation Aero Glass operating system.";
+    return "Welcome to Zeb OS 3 Pre-Alpha 0.0.4!\nEnjoy the next generation Aero Glass operating system.";
 }
 
 export function saveFileToVFS(path, content) {
@@ -351,6 +351,39 @@ function refreshDesktop() {
     }
 }
 
+// Live Clock
+function startClock() {
+    const clockEl = document.getElementById('live-clock');
+    const update = () => {
+        if (clockEl) {
+            const now = new Date();
+            clockEl.textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        }
+    };
+    update();
+    setInterval(update, 1000);
+}
+
+// Start Menu Toggle
+function setupStartMenu() {
+    const startBtn = document.getElementById('start-button');
+    const startMenu = document.getElementById('start-menu');
+
+    if (startBtn && startMenu) {
+        startBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            playSystemSound('click');
+            startMenu.classList.toggle('hidden-view');
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!startMenu.contains(e.target) && !startBtn.contains(e.target)) {
+                startMenu.classList.add('hidden-view');
+            }
+        });
+    }
+}
+
 // Context Menu Event Listeners
 function setupContextMenuListeners() {
     const desktop = document.getElementById('desktop-canvas');
@@ -409,7 +442,7 @@ export function initZebOS3() {
         "CPU: Zeb x86_64 Dual-Core Processor @ 3.40 GHz",
         "Memory Test: 8192 MB OK",
         "Detecting Storage Devices... Primary Disk Z:\\ (VFS Storage) [OK]",
-        "Booting OS Kernel v0.0.3..."
+        "Booting OS Kernel v0.0.4..."
     ];
 
     // Phase 1: BIOS Text Print

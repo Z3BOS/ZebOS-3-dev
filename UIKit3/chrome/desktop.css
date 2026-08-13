@@ -60,3 +60,24 @@
     word-break: break-word;
     line-height: 1.2;
 }
+
+/* Desktop Build Watermark Overlay */
+#desktop-watermark {
+    position: absolute;
+    bottom: 16px;
+    right: 18px;
+    text-align: right;
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.65);
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9), 0 0 8px rgba(0, 0, 0, 0.8);
+    font-family: var(--main-font);
+    line-height: 1.4;
+    pointer-events: none;
+    user-select: none;
+    z-index: 5;
+}
+
+.watermark-title {
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.85);
+}

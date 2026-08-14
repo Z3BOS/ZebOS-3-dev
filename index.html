@@ -412,6 +412,25 @@
             if (!app) return;
             launchPortedApp(app);
         });
+
+        // Global "Shift+R" shortcut opens Run (ported from ZebOS 2's
+        // setupGlobalShortcuts) — ignored while typing, mid-boot, on the
+        // logon screen, or while a system dialog is open.
+        const isTypingContext = () => {
+            const el = document.activeElement;
+            if (!el) return false;
+            const tag = el.tagName;
+            return tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || el.isContentEditable;
+        };
+        window.addEventListener('keydown', (e) => {
+            if (!(e.shiftKey && !e.ctrlKey && !e.altKey && !e.metaKey && e.key.toLowerCase() === 'r')) return;
+            if (isTypingContext()) return;
+            if (document.getElementById('bios-screen') || document.getElementById('boot-screen')) return;
+            if (document.getElementById('logon-screen')) return;
+            if (document.getElementById('system-dialog-overlay')) return;
+            e.preventDefault();
+            launchPortedApp(APP_BY_KEY.run);
+        });
     </script>
 </body>
 
